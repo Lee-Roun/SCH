@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/sch_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="#ff880033"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:tabIndicatorColor="#bbdefa"
+            app:tabSelectedTextColor="#ffffff"
+            app:tabTextColor="#88ffffff">
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tabCourse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Required_courses" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tabTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/time" />
+
+        </android.support.design.widget.TabLayout>
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/sch_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sch_tab">
+
+        </android.support.v4.view.ViewPager>
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

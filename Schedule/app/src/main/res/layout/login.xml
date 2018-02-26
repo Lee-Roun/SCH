@@ -1,50 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:layout_anchorGravity="center"
+    tools:layout_editor_absoluteY="81dp">
 
     <EditText
-        android:id="@+id/text_pw"
+        android:id="@+id/textid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="numberPassword"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="232dp" />
-
-    <EditText
-        android:id="@+id/text_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
+        android:hint="@string/text_id"
         android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="177dp" />
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/textpw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/text_pw"
+        android:inputType="textPassword"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textid" />
 
     <Button
         android:id="@+id/btn_login"
         android:layout_width="215dp"
         android:layout_height="wrap_content"
-        android:text="로그인"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="285dp" />
+        android:layout_marginTop="8dp"
+        android:linksClickable="false"
+        android:text="@string/btn_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textpw" />
 
     <Button
         android:id="@+id/btn_signin"
-        android:layout_width="106dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="회원가입"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="341dp" />
+        android:layout_marginTop="8dp"
+        android:text="@string/btn_signin"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/btn_login"
+        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
     <Button
         android:id="@+id/byn_find"
-        android:layout_width="106dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="찾기"
-        tools:layout_editor_absoluteX="194dp"
-        tools:layout_editor_absoluteY="341dp" />
+        android:layout_marginTop="8dp"
+        android:text="@string/btn_find"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_login"
+        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/textid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@mipmap/ic_launcher" />
 
 </android.support.constraint.ConstraintLayout>
