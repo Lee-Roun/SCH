@@ -27,18 +27,6 @@
             app:tabSelectedTextColor="#ffffff"
             app:tabTextColor="#88ffffff">
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/tabCourse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Required_courses" />
-
-            <android.support.design.widget.TabItem
-                android:id="@+id/tabTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/time" />
-
         </android.support.design.widget.TabLayout>
 
 

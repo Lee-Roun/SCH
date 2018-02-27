@@ -3,17 +3,26 @@ package com.example.myapplication;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         /*
         setContentView(R.layout.activity_main);
@@ -30,13 +39,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         */
-
         setContentView(R.layout.searchpop);
+    //탭레이아웃
+        //탭 레이아웃 설정
+        tabLayout = (TabLayout)findViewById(R.id.sch_tab);
+        tabLayout.addTab(tabLayout.newTab().setText("필수과목"));
+        tabLayout.addTab(tabLayout.newTab().setText("시간"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        SectionsPagerAdapter mSectionPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        //뷰페이저 달기
+        viewPager = (ViewPager)findViewById(R.id.sch_viewpager);
 
+        //어댑터 연결
+        TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
+        //탭 선택리스너
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+    //리스트뷰
     }
 
     @Override

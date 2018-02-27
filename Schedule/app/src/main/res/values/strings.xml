@@ -9,4 +9,10 @@
     <string name="Required_courses">필수과목</string>
     <string name="time">시간</string>
     <string name="section_format">hello</string>
+    <string name="logo">로고</string>
+    <string name="first_course">첫번째 과목</string>
+    <string name="course_name">과목</string>
+    <string name="day">요일</string>
+    <string name="searchCourse">검색 할 과목</string>
+
 </resources>
