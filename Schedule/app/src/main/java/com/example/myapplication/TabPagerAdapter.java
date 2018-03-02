@@ -22,6 +22,9 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
         switch (position){
             case 0:
                 FirstFragment FirstFragment = new FirstFragment();
+
+
+
                 return FirstFragment;
             case 1:
                 SecondFragment SecondFragment = new SecondFragment();

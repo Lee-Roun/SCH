@@ -13,16 +13,22 @@ public class ListViewItem {
     private String time1;
     private String day2;
     private String time2;
-
-
+/*
+    public ListViewItem(){
+        this.chkBox = false;
+        this.courseName = "DB";
+        this.day1 = "Mon";
+        this.time1 = "09:00";
+        this.day2 = "The";
+        this.time2 = "10:00";
+    }
+*/
     public void setChkBox() {
         this.chkBox = false;
     }
-
     public void setCourseName(String courseName){
         this.courseName = courseName;
     }
-
     public void setDay1(String day1){
         this.day1 = day1;
     }
@@ -37,9 +43,7 @@ public class ListViewItem {
     }
 
 
-    public boolean getChkBox(){
-        return this.chkBox;
-    }
+    public boolean getChkBox(){ return this.chkBox; }
     public String getCourseName(){
         return this.courseName;
     }

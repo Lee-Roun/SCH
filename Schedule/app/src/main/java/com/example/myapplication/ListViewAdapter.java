@@ -46,7 +46,7 @@ public class ListViewAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.listview_item, viewGroup, false);
         }
 
-        CheckBox chkBox = (CheckBox)view.findViewById(R.id.checkBox);
+        CheckBox chkBoxView = (CheckBox)view.findViewById(R.id.checkBox);
         TextView courseNameView = (TextView)view.findViewById(R.id.courseName);
         TextView day1View = (TextView)view.findViewById(R.id.day1);
         TextView time1View = (TextView)view.findViewById(R.id.time1);
@@ -55,12 +55,13 @@ public class ListViewAdapter extends BaseAdapter {
 
         ListViewItem listViewItem = listViewItemList.get(position);
 
-        chkBox.setSelected(listViewItem.getChkBox());
+        chkBoxView.setSelected(listViewItem.getChkBox());
         courseNameView.setText(listViewItem.getCourseName());
         day1View.setText(listViewItem.getDay1());
         time1View.setText(listViewItem.getTime1());
         day2View.setText(listViewItem.getDay2());
         time2View.setText(listViewItem.getTime2());
+
 
         return view;
     }
@@ -68,6 +69,7 @@ public class ListViewAdapter extends BaseAdapter {
     public void addItem(String courseName, String day1, String time1, String day2, String time2){
         ListViewItem item = new ListViewItem();
 
+        item.setChkBox();
         item.setCourseName(courseName);
         item.setDay1(day1);
         item.setTime1(time1);
