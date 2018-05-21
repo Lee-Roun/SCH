@@ -7,13 +7,16 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by JeonWon on 2018-03-04.
  */
-public class ContactDBHelper extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper {
+
+    private Context context;
 
     public static final int DB_VERSION = 1;
-    public static final String DBFILE_CONTACT = "contact.db";
+    public static final String DBFILE_CONTACT = "Bin.db";
 
-    public ContactDBHelper(Context context){
-        super(context, DBFILE_CONTACT, null, DB_VERSION);
+    public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory){
+        super(context, DBFILE_CONTACT, factory, DB_VERSION);
+        this.context = context;
     }
 
 

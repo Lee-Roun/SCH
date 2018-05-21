@@ -16,11 +16,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -32,7 +29,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -46,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private SQLiteDatabase sqliteDB;
 
-    ContactDBHelper dbHelper = null;
+    DBHelper dbHelper = null;
 
     private EditText mEditTextName;
     private EditText mEditTextAddress;
@@ -92,18 +88,18 @@ public class MainActivity extends AppCompatActivity {
         GetData task = new GetData();
         task.execute("http://192.168.0.128/getPerson.php");
 
-/*
+
         setContentView(R.layout.searchpop);
 
-    //탭레이아웃
+        //탭레이아웃
         //탭 레이아웃 설정
-        tabLayout = (TabLayout)findViewById(R.id.sch_tab);
+        tabLayout = (TabLayout) findViewById(R.id.sch_tab);
         tabLayout.addTab(tabLayout.newTab().setText("필수과목"));
         tabLayout.addTab(tabLayout.newTab().setText("시간"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         //뷰페이저 달기
-        viewPager = (ViewPager)findViewById(R.id.sch_viewpager);
+        viewPager = (ViewPager) findViewById(R.id.sch_viewpager);
 
         //어댑터 연결
         TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
@@ -132,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         //SQLite 데이터베이스
         //sqliteDB = init_database();
         //init_tables();
-
+/*
         mEditTextName = (EditText)findViewById(R.id.editText_main_name);
         mEditTextAddress = (EditText)findViewById(R.id.editText_main_address);
         mTextViewResult = (TextView)findViewById(R.id.textView_main_result);
@@ -252,9 +248,9 @@ public class MainActivity extends AppCompatActivity {
 
 //}
 
-    /*
+
         private void init_tables(){
-            dbHelper = new ContactDBHelper(this);
+            dbHelper = new DBHelper(getApplicationContext(), "BinDB", null);
         }
 
         private SQLiteDatabase init_database(){
@@ -281,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
 
             return db;
         }
-    */
+
     private class GetData extends AsyncTask<String, Void, String> {
         ProgressDialog progressDialog;
         String errorString = null;
@@ -400,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
 
                 mArrayList.add(hashMap);
             }
-
+/*
             ListAdapter adapter = new SimpleAdapter(
                     MainActivity.this, mArrayList, R.layout.item_list,
                     new String[]{TAG_ID, TAG_NAME, TAG_ADDRESS},
@@ -408,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
             );
 
             mlistView.setAdapter(adapter);
-
+*/
         } catch (JSONException e) {
 
             Log.d(TAG, "showResult : ", e);
