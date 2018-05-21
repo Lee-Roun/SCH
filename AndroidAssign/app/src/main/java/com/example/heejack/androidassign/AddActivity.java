@@ -8,7 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,49 +19,115 @@ import java.util.List;
 
 public class AddActivity extends AppCompatActivity {
     Button button;
-    Spinner spinner;
-    List<String> listview_Items;
-    ArrayAdapter<String> listview_Adapter;
-
+    TextView editTextStart, editTextEnd;
+    Spinner spinner1,spinner2;
+    List<Lecture> lectureList;
+    LectureAdapter lectureAdapter;
+    String[] type, days;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
-        ListView listView = (ListView)findViewById(R.id.listView);
-        listview_Items = new ArrayList<>();
-        listview_Adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listview_Items);
-        listView.setAdapter(listview_Adapter);
-        spinner = (Spinner)findViewById(R.id.spinner1);
-        button = (Button)findViewById(R.id.button);
+        editTextStart = (TextView)findViewById(R.id.TextStart);
+        editTextEnd = (TextView)findViewById(R.id.TextEnd);
 
-        final String[] array = getResources().getStringArray(R.array.test);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        editTextStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DateDialog dateDialog = new DateDialog(AddActivity.this);
+                dateDialog.setDateDialogListener(new DateDialog.DateDialogListener() {
+                    @Override
+                    public void OnDateValidate(String time) {
+                        editTextStart.setText(time);
+                    }
+                });
+                dateDialog.show();
+            }
+        });
+
+        editTextEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DateDialog dateDialog = new DateDialog(AddActivity.this);
+                dateDialog.setDateDialogListener(new DateDialog.DateDialogListener() {
+                    @Override
+                    public void OnDateValidate(String time) {
+                        editTextEnd.setText(time);
+                    }
+                });
+                dateDialog.show();
+            }
+        });
+
+        /*전체 강의목록 리스트뷰*/
+        ListView listView = (ListView)findViewById(R.id.listViewAllLecture);
+        lectureAdapter = new LectureAdapter();
+        listView.setAdapter(lectureAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
+        /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+        spinner1 = (Spinner)findViewById(R.id.spinner1);
+        spinner2 = (Spinner)findViewById(R.id.spinner2);
+
+        button = (Button)findViewById(R.id.buttonSearch);
+
+        type = getResources().getStringArray(R.array.type);
+        days = getResources().getStringArray(R.array.day);
+
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), ""+array[i], Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
 
             }
         });
 
-        List<String> spinner_items = new ArrayList<>();
-        ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinner_items);
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
+            }
 
-        spinner_items.add("1");
-        spinner_items.add("2");
-        spinner_items.add("3");
-        spinner_items.add("4");
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-        spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinner_adapter);
+            }
+        });
+        ArrayAdapter<String> spinner_adapter1 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, type);
+        ArrayAdapter<String> spinner_adapter2 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, days);
+
+        spinner_adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner1.setAdapter(spinner_adapter1);
+        spinner2.setAdapter(spinner_adapter2);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pullAllLecture();
+            }
+        });
     }
 
+    public void pullAllLecture(){
+        lectureAdapter.deleteList();
+        lectureList = MainActivity.dbHelper.getAllPlanData();
+
+        for(int i = 0; i<=lectureList.size(); i++){
+            lectureAdapter.addLecture(lectureList.get(i));
+        }
+        lectureAdapter.notifyDataSetChanged();
+    }
 
 }
