@@ -24,16 +24,20 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQESTCODE = 687;
     public static DBHelper dbHelper;
     FloatingActionButton floatingActionButton;
+    SharedPreferences myInfo;
     private ListView listViewLecture, listViewMyLecture;
+    MenuItem menuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences myInfo = getSharedPreferences("myInfo", MODE_PRIVATE);
+        myInfo = getSharedPreferences("myInfo", MODE_PRIVATE);
         SharedPreferences.Editor editor = myInfo.edit();
 
+
+        //ture : 로그인 되있음 false : 로그인 안되있음
 
 
         listViewLecture = (ListView)findViewById(R.id.listViewAllLecture);
@@ -89,6 +93,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        menuItem = menu.getItem(0);
+        Log.i("Menu", ""+menuItem.getTitle());
+
+        if(myInfo.getBoolean("LOGINCHK", false)) {
+            menuItem.setTitle("내정보");
+        }
+        else{
+            menuItem.setTitle("로그인");
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -97,13 +110,20 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuProfile:
-                //프로필 눌렀을때
-                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
-                startActivity(intent);
+                //프로필 눌렀을때 로그인 중이면 내정보 화면으로 이동
+                if(myInfo.getBoolean("LOGINCHK", false)) {
+                    Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                    startActivity(intent);
+                }
+                else{
+
+                }
                 break;
         }
 
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

@@ -4,6 +4,5 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('src/main/java/com/example/lib/jxl.jar')
 }
-
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
