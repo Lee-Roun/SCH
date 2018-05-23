@@ -3,6 +3,7 @@ package com.example.heejack.androidassign;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,15 +28,18 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     SharedPreferences myInfo;
     private ListView listViewLecture, listViewMyLecture;
-    MenuItem menuItem;
+    @Nullable MenuItem menuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        menuItem = null;
+
         myInfo = getSharedPreferences("myInfo", MODE_PRIVATE);
         SharedPreferences.Editor editor = myInfo.edit();
+
 
 
         //ture : 로그인 되있음 false : 로그인 안되있음
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         if (dbHelper == null) {
             dbHelper = new DBHelper(getApplicationContext(), "LECTURE", null, 1);
             Excel();
-            Toast.makeText(this, "DB생성 성공", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "DB생성 성공", Toast.LENGTH_SHORT).show();
         }
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
@@ -92,6 +96,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
+        if(menuItem != null) {
+            if (myInfo.getBoolean("LOGINCHK", false)) {
+                menuItem.setTitle("내정보");
+            } else {
+                menuItem.setTitle("로그인");
+            }
+        }
+
+        //여기서 사용자의 시간표를 읽어와서 표시해줘야함
+
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         menuItem = menu.getItem(0);
@@ -118,10 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else{
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivityForResult(intent, REQ_LOGIN);
-                }
-                else{
-
+                    startActivity(intent);
                 }
                 break;
         }

@@ -54,8 +54,7 @@ public class LectureAdapter extends BaseAdapter {
     }
 
     public void addLecture(Lecture lecture){
-        Lecture item= new Lecture();
-        item = lecture;
+        Lecture item=lecture;
 
         LecutureList.add(item);
         notifyDataSetChanged();

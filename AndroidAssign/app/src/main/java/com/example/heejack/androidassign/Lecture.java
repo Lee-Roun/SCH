@@ -19,6 +19,9 @@ public class Lecture {
     public Lecture() {
         this.Title = "TEST";
         this.LID = 1;
+        this.FullInfo = "테스트";
+        this.L_Num = "10010-01";
+
     }
 
     public Lecture(String L_Num, String Title, String FullInfo, String Day1, String STime1, String STime2, String ETime1, String Day2, String ETime2, String Univ) {

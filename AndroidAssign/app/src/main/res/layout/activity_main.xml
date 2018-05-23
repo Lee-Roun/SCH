@@ -5,39 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.heejack.androidassign.MainActivity"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteY="81dp"
+    android:background="#e0f5c3c4">
 
 
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center"
+            >
 
             <TextView
                 android:id="@+id/br"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAlignment="center"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/textViewMon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="월"
                 android:gravity="center"
+                android:text="월"
                 android:textAlignment="center" />
 
             <TextView
@@ -45,8 +48,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="화"
                 android:gravity="center"
+                android:text="화"
                 android:textAlignment="center" />
 
             <TextView
@@ -54,8 +57,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="수"
                 android:gravity="center"
+                android:text="수"
                 android:textAlignment="center" />
 
             <TextView
@@ -63,8 +66,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="목"
                 android:gravity="center"
+                android:text="목"
                 android:textAlignment="center" />
 
             <TextView
@@ -72,8 +75,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="금"
                 android:gravity="center"
+                android:text="금"
                 android:textAlignment="center" />
         </TableRow>
 

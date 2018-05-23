@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidAssign</string>
+    <string name="app_name">빈틈</string>
 
     <array name="type">
         <item>전공</item>

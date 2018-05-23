@@ -19,8 +19,11 @@
         <activity android:name=".AddActivity"></activity>
         <activity android:name=".SettingActivity"></activity>
         <activity android:name=".SignInActivity"></activity>
-        <activity android:name=".PopUpActivity"></activity>
+        <activity android:name=".PopUpActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog"></activity>
         <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".PopUpAutoActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog"></activity>
     </application>
 
 </manifest>

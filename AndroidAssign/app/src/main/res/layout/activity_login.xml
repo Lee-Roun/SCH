@@ -15,13 +15,13 @@
         android:ems="10"
         android:hint="ID"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/editText8"
+        app:layout_constraintBottom_toTopOf="@+id/editTextPW"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText8"
+        android:id="@+id/editTextPW"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -37,9 +37,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="로그인"
-        app:layout_constraintEnd_toEndOf="@+id/editText8"
+        app:layout_constraintEnd_toEndOf="@+id/editTextPW"
         app:layout_constraintStart_toEndOf="@+id/buttonCancle"
-        app:layout_constraintTop_toBottomOf="@+id/editText8" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPW" />
 
     <Button
         android:id="@+id/buttonCancle"
@@ -48,17 +48,17 @@
         android:layout_marginTop="32dp"
         android:text="취소"
         app:layout_constraintEnd_toStartOf="@+id/buttonLogin"
-        app:layout_constraintStart_toStartOf="@+id/editText8"
-        app:layout_constraintTop_toBottomOf="@+id/editText8" />
+        app:layout_constraintStart_toStartOf="@+id/editTextPW"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPW" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/buttonSignIn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:text="회원가입"
-        app:layout_constraintEnd_toEndOf="@+id/editText8"
-        app:layout_constraintStart_toStartOf="@+id/editText8"
+        app:layout_constraintEnd_toEndOf="@+id/editTextPW"
+        app:layout_constraintStart_toStartOf="@+id/editTextPW"
         app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 </android.support.constraint.ConstraintLayout>
