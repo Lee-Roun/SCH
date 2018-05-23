@@ -17,6 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddActivity"></activity>
+        <activity android:name=".SettingActivity"></activity>
+        <activity android:name=".SignInActivity"></activity>
+        <activity android:name=".PopUpActivity"></activity>
     </application>
 
 </manifest>

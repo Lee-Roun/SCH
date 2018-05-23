@@ -48,7 +48,7 @@ public class LectureAdapter extends BaseAdapter {
         textViewFullInfo.setText(lecture.getFullInfo());
         textViewLNum.setText(lecture.getL_Num());
         textViewTitle.setText(lecture.getTitle());
-        textViewLID.setText(lecture.getLID());
+        textViewLID.setText(String.valueOf(lecture.getLID()));
 
         return view;
     }
@@ -60,6 +60,12 @@ public class LectureAdapter extends BaseAdapter {
         LecutureList.add(item);
         notifyDataSetChanged();
     }
+
+    public void remove(Lecture lecture){
+        LecutureList.remove(lecture);
+        notifyDataSetChanged();
+    }
+
     public void deleteList(){
         LecutureList.removeAll(LecutureList);
         notifyDataSetChanged();

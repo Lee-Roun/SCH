@@ -4,5 +4,5 @@
     <item
         android:id="@+id/menuProfile"
         android:icon="@android:drawable/ic_menu_manage"
-        android:title="설정" />
+        android:title="내 정보" />
 </menu>

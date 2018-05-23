@@ -17,6 +17,8 @@ public class Lecture {
     private int LID;
 
     public Lecture() {
+        this.Title = "TEST";
+        this.LID = 1;
     }
 
     public Lecture(String L_Num, String Title, String FullInfo, String Day1, String STime1, String STime2, String ETime1, String Day2, String ETime2, String Univ) {

@@ -1,7 +1,10 @@
 package com.example.heejack.androidassign;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,7 +14,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by HeeJack on 2018-05-21.
@@ -20,9 +22,11 @@ import java.util.List;
 public class AddActivity extends AppCompatActivity {
     Button button;
     TextView editTextStart, editTextEnd;
+    ListView listViewAll, listViewAdd;
     Spinner spinner1,spinner2;
-    List<Lecture> lectureList;
-    LectureAdapter lectureAdapter;
+    ArrayList<Lecture> lectureList = new ArrayList<Lecture>();
+    ArrayList<Lecture> lectureMyList = new ArrayList<Lecture>();
+    LectureAdapter lectureAdapter, myLectureAdapter;
     String[] type, days;
 
     @Override
@@ -62,13 +66,71 @@ public class AddActivity extends AppCompatActivity {
         });
 
         /*전체 강의목록 리스트뷰*/
-        ListView listView = (ListView)findViewById(R.id.listViewAllLecture);
+        listViewAll = (ListView)findViewById(R.id.listViewAllLecture);
         lectureAdapter = new LectureAdapter();
-        listView.setAdapter(lectureAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        myLectureAdapter = new LectureAdapter();
+        listViewAll.setAdapter(lectureAdapter);
+        listViewAll.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddActivity.this);
 
+                alertBuilder.setTitle("확인");
+                alertBuilder.setMessage("일정을 내 시간표에 추가하시겠습니까?")
+                        .setCancelable(false)
+                        .setPositiveButton("확인",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        lectureMyList.add(lectureList.get(position));
+                                        for(int t = 0; t<lectureMyList.size(); t++){
+                                            myLectureAdapter.addLecture(lectureMyList.get(position));
+                                        }
+                                        myLectureAdapter.notifyDataSetChanged();
+                                    }
+                                })
+                        .setNegativeButton("취소",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                });
+
+                AlertDialog alertDialog = alertBuilder.create();
+                alertDialog.show();
+            }
+        });
+        /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+        /*내 강의목록 리스트뷰*/
+        listViewAdd = (ListView)findViewById(R.id.listViewAdded);
+        listViewAdd.setAdapter(myLectureAdapter);
+        listViewAdd.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddActivity.this);
+
+                alertBuilder.setTitle("확인");
+                alertBuilder.setMessage("일정을 삭제하시겠습니까?")
+                        .setCancelable(false)
+                        .setPositiveButton("확인",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        myLectureAdapter.remove(lectureMyList.get(position));
+                                    }
+                                })
+                        .setNegativeButton("취소",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                });
+
+                AlertDialog alertDialog = alertBuilder.create();
+                alertDialog.show();
             }
         });
         /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -122,9 +184,11 @@ public class AddActivity extends AppCompatActivity {
 
     public void pullAllLecture(){
         lectureAdapter.deleteList();
-        lectureList = MainActivity.dbHelper.getAllPlanData();
+//        lectureList = MainActivity.dbHelper.getAllPlanData();
+        lectureList.add(new Lecture());
+        Log.i("ListView", ""+lectureList);
 
-        for(int i = 0; i<=lectureList.size(); i++){
+        for(int i = 0; i<lectureList.size(); i++){
             lectureAdapter.addLecture(lectureList.get(i));
         }
         lectureAdapter.notifyDataSetChanged();

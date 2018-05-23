@@ -1,9 +1,11 @@
 package com.example.heejack.androidassign;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences myInfo = getSharedPreferences("myInfo", MODE_PRIVATE);
+        SharedPreferences.Editor editor = myInfo.edit();
+
+
 
         listViewLecture = (ListView)findViewById(R.id.listViewAllLecture);
 
@@ -62,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             String[] strings = new String[10];
             for (int row = RowStart; row <= RowEnd; row++) {
                 for (int Column = ColumnStart; Column <= ColumnEnd; Column++) {
+                    Log.i("DBHelper", ""+row+", "+Column);
                     strings[Column] = sheet.getCell(row, Column).getContents();
                 }
                 Lecture lecture = new Lecture(strings);
@@ -90,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menuProfile:
                 //프로필 눌렀을때
-                Toast.makeText(this, "설정", Toast.LENGTH_SHORT).show();
-
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent);
                 break;
         }
 
