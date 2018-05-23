@@ -21,7 +21,8 @@ import jxl.read.biff.BiffException;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final int REQESTCODE = 687;
+    private static final int REQ_ADD = 687;
+    private static final int REQ_LOGIN = 687;
     public static DBHelper dbHelper;
     FloatingActionButton floatingActionButton;
     SharedPreferences myInfo;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AddActivity.class);
-                startActivityForResult(intent, REQESTCODE);
+                startActivityForResult(intent, REQ_ADD);
             }
         });
 
@@ -114,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
                 if(myInfo.getBoolean("LOGINCHK", false)) {
                     Intent intent = new Intent(MainActivity.this, SettingActivity.class);
                     startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, REQ_LOGIN);
                 }
                 else{
 

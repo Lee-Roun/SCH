@@ -20,6 +20,7 @@
         <activity android:name=".SettingActivity"></activity>
         <activity android:name=".SignInActivity"></activity>
         <activity android:name=".PopUpActivity"></activity>
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>
