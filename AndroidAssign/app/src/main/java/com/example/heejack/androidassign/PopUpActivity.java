@@ -12,7 +12,7 @@ public class PopUpActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        
+
 
 
 
