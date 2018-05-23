@@ -744,7 +744,7 @@
 
     <ListView
         android:id="@+id/listViewAllLecture"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="1dp"
         android:background="#d3d3d3"
