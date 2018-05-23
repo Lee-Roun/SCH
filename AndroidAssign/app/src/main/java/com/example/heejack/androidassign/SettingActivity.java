@@ -26,7 +26,7 @@ public class SettingActivity extends AppCompatActivity {
         field = (TextView)findViewById(R.id.textViewField);
 
         //Preference 불러와서 사용자 정보 저장
-        SharedPreferences myInfo = getSharedPreferences("myInfo", MODE_PRIVATE);
+        final SharedPreferences myInfo = getSharedPreferences("myInfo", MODE_PRIVATE);
         id.setText(myInfo.getString("ID","NO LOGIN"));
         name.setText(myInfo.getString("NAME","NO LOGIN"));
         gender.setText(myInfo.getString("GENDER","NO LOGIN"));
@@ -38,7 +38,9 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SettingActivity.this, PopUpActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra("VALUE", "UNIV");
+                intent.putExtra("UNIV", myInfo.getString("UNIV", ""));
                 startActivityForResult(intent, REQ_UNIV);
 
             }
@@ -47,13 +49,13 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SettingActivity.this, PopUpActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra("VALUE", "FIELD");
+                intent.putExtra("FIELD", myInfo.getString("FIELD", ""));
                 startActivityForResult(intent, REQ_FIELD);
 
             }
         });
-
-
 
 
         SharedPreferences.Editor editor = myInfo.edit();
