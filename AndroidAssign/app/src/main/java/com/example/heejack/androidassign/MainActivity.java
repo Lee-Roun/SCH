@@ -2,6 +2,7 @@ package com.example.heejack.androidassign;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -13,12 +14,11 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.io.InputStream;
 
+import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
-import jxl.read.biff.BiffException;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -67,30 +67,59 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Excel() {
-        Workbook workbook = null;
-        Sheet sheet = null;
-        try {
-            InputStream inputStream = getBaseContext().getResources().getAssets().open("lecture.xlsx");
-            workbook = Workbook.getWorkbook(inputStream);
-            sheet = workbook.getSheet(0);
-            int MaxColumn = 10, RowStart = 1, RowEnd = sheet.getColumn(1).length - 1, ColumnStart = 0, ColumnEnd = sheet.getRow(1).length;
+        try{
+            String data = "";
+            int row=0, column=0;
+            AssetManager assetManager = getAssets();
+            InputStream inputStream = assetManager.open("lecutre.xls");
+            Workbook workbook = Workbook.getWorkbook(inputStream);
 
-            String[] strings = new String[10];
-            for (int row = RowStart; row <= RowEnd; row++) {
-                for (int Column = ColumnStart; Column <= ColumnEnd; Column++) {
-                    Log.i("DBHelper", ""+row+", "+Column);
-                    strings[Column] = sheet.getCell(row, Column).getContents();
+            Sheet sh = workbook.getSheet("Sheet1");
+            row = sh.getRows();
+            column = sh.getColumns();
+
+            for(int r=0;r<row;r++){
+                for(int c=0; c<column;c++){
+                    Cell cell = sh.getCell(c,r);
+                    data = data+" / "+cell.getContents();
                 }
-                Lecture lecture = new Lecture(strings);
-                dbHelper.add(lecture);
+                data= data+"\n";
             }
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        } catch (BiffException e2) {
-            e2.printStackTrace();
-        } finally {
+
+            Toast.makeText(this, "성공"+data, Toast.LENGTH_SHORT).show();
+
+
+        }catch (Exception e1){
 
         }
+
+
+
+
+//        Workbook workbook = null;
+//        Sheet sheet = null;
+//        try {
+//            InputStream inputStream = getBaseContext().getResources().getAssets().open("lecture.xlsx");
+//            workbook = Workbook.getWorkbook(inputStream);
+//            sheet = workbook.getSheet(0);
+//            int MaxColumn = 10, RowStart = 1, RowEnd = sheet.getColumn(1).length - 1, ColumnStart = 0, ColumnEnd = sheet.getRow(1).length;
+//
+//            String[] strings = new String[10];
+//            for (int row = RowStart; row <= RowEnd; row++) {
+//                for (int Column = ColumnStart; Column <= ColumnEnd; Column++) {
+//                    Log.i("DBHelper", ""+row+", "+Column);
+//                    strings[Column] = sheet.getCell(row, Column).getContents();
+//                }
+//                Lecture lecture = new Lecture(strings);
+//                dbHelper.add(lecture);
+//            }
+//        } catch (IOException e1) {
+//            e1.printStackTrace();
+//        } catch (BiffException e2) {
+//            e2.printStackTrace();
+//        } finally {
+//
+//        }
 
 
     }
