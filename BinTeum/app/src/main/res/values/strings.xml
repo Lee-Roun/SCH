@@ -1,4 +1,15 @@
 <resources>
-    <string name="app_name">BinTeum</string>
-    <string name="action_settings">Settings</string>
-</resources>
+    <string name="app_name">빈틈</string>
+
+    <array name="type">
+        <item>전공</item>
+        <item>교양</item>
+    </array>
+    <array name="day">
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+    </array>
+    <string name="time_text">%1$s : %2$s</string></resources>

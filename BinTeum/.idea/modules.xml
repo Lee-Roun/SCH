@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BinTeum.iml" filepath="$PROJECT_DIR$/BinTeum.iml" />
-      <module fileurl="file://C:\Users\ljw68\Documents\GitHub\SCH\BinTeum\BinTeum.iml" filepath="C:\Users\ljw68\Documents\GitHub\SCH\BinTeum\BinTeum.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Binteum.iml" filepath="$PROJECT_DIR$/Binteum.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\ljw68\Documents\GitHub\SCH\BinTeum\app\app.iml" filepath="C:\Users\ljw68\Documents\GitHub\SCH\BinTeum\app\app.iml" />
     </modules>
   </component>
 </project>
