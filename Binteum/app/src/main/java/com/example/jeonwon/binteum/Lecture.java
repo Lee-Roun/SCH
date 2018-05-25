@@ -1,30 +1,21 @@
 package com.example.jeonwon.binteum;
 
 public class Lecture {
-    //        createSQL1.append(" CREATE TABLE LECTURE ( ");
-//        createSQL1.append(" LID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ");
-//        createSQL1.append(" L_NUM INTEGER, ");
-//        createSQL1.append(" TITLE TEXT, ");
-//            createSQL1.append(" FULLINFO TEXT, ");
-    //        createSQL1.append(" DAY1 TEXT, ");
-//        createSQL1.append(" STIME1 TIME, ");
-//        createSQL1.append(" STIME2 TIME, ");
-//        createSQL1.append(" DAY2 TEXT, ");
-//        createSQL1.append(" ETIME1 TIME, ");
-//        createSQL1.append(" ETIME2 TIME, ");
-//        createSQL1.append(" UNIV TEXT ) ");
-    private String L_Num, Title, FullInfo, Day1, Day2, STime1, STime2, ETime1, ETime2, Univ;
+    private String L_Num, Title, FullInfo, Day1, Day2, STime1, STime2, ETime1, ETime2,
+            Prof, Lang, Grade, Type, Target, Point, Univ;
     private int LID;
 
     public Lecture() {
-        this.Title = "TEST";
-        this.LID = 1;
-        this.FullInfo = "테스트";
-        this.L_Num = "10010-01";
+//        this.Title = "TEST";
+//        this.LID = 1;
+//        this.FullInfo = "테스트";
+//        this.L_Num = "10010-01";
+//        this.Prof = "아저씨";
 
     }
 
-    public Lecture(String L_Num, String Title, String FullInfo, String Day1, String STime1, String STime2, String ETime1, String Day2, String ETime2, String Univ) {
+    public Lecture(String L_Num, String Title, String FullInfo, String Day1, String STime1, String STime2,
+                   String ETime1, String Day2, String ETime2, String Prof, String Point, String Lang, String Grade, String Type, String Target, String Univ) {
         this.Day1 = Day1;
         this.Day2 = Day2;
         this.FullInfo = FullInfo;
@@ -33,6 +24,12 @@ public class Lecture {
         this.L_Num = L_Num;
         this.STime1 = STime1;
         this.STime2 = STime2;
+        this.Prof = Prof;
+        this.Point = Point;
+        this.Lang = Lang;
+        this.Grade = Grade;
+        this.Type = Type;
+        this.Target = Target;
         this.Title = Title;
         this.Univ = Univ;
     }
@@ -47,7 +44,13 @@ public class Lecture {
         this.Day2 = lecture[6];
         this.ETime1 = lecture[7];
         this.ETime2 = lecture[8];
-        this.Univ = lecture[9];
+        this.Prof = lecture[9];
+        this.Point = lecture[10];
+        this.Lang = lecture[11];
+        this.Grade = lecture[12];
+        this.Type = lecture[13];
+        this.Target = lecture[14];
+        this.Univ = lecture[15];
     }
 
     public void setTitle(String Title) {
@@ -80,6 +83,30 @@ public class Lecture {
 
     public void setETime2(String ETime2) {
         this.ETime2 = ETime2;
+    }
+
+    public void setProf(String Prof) {
+        this.Prof = Prof;
+    }
+
+    public void setPoint(String Point) {
+        this.Point = Point;
+    }
+
+    public void setLang(String Lang) {
+        this.Lang = Lang;
+    }
+
+    public void setGrade(String Grade) {
+        this.Grade = Grade;
+    }
+
+    public void setType(String Type) {
+        this.Type = Type;
+    }
+
+    public void setTarget(String Target) {
+        this.Target = Target;
     }
 
     public void setUniv(String Univ) {
@@ -124,6 +151,30 @@ public class Lecture {
 
     public String getETime2() {
         return this.ETime2;
+    }
+
+    public String getProf() {
+        return this.Prof;
+    }
+
+    public String getPoint() {
+        return this.Point;
+    }
+
+    public String getLang() {
+        return this.Lang;
+    }
+
+    public String getGrade() {
+        return this.Grade;
+    }
+
+    public String getType() {
+        return this.Type;
+    }
+
+    public String getTarget() {
+        return this.Target;
     }
 
     public String getUniv() {

@@ -40,14 +40,14 @@ public class LectureAdapter extends BaseAdapter {
         TextView textViewFullInfo = (TextView)view.findViewById(R.id.textViewFullInfo);
         TextView textViewLNum = (TextView)view.findViewById(R.id.textViewLNum);
         TextView textViewTitle = (TextView)view.findViewById(R.id.textViewTitle);
-        TextView textViewLID= (TextView)view.findViewById(R.id.textViewLID);
+        TextView textViewProf= (TextView)view.findViewById(R.id.textViewProf);
 
         Lecture lecture = LecutureList.get(i);
 
         textViewFullInfo.setText(lecture.getFullInfo());
         textViewLNum.setText(lecture.getL_Num());
         textViewTitle.setText(lecture.getTitle());
-        textViewLID.setText(String.valueOf(lecture.getLID()));
+        textViewProf.setText(lecture.getProf());
 
         return view;
     }

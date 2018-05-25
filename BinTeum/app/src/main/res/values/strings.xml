@@ -2,10 +2,12 @@
     <string name="app_name">빈틈</string>
 
     <array name="type">
+        <item>구분</item>
         <item>전공</item>
         <item>교양</item>
     </array>
     <array name="day">
+        <item>날짜</item>
         <item>월</item>
         <item>화</item>
         <item>수</item>

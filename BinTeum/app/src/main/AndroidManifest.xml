@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,12 +22,22 @@
             android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".SettingActivity"></activity>
-        <activity android:name=".SignInActivity"></activity>
+        <activity android:name=".SettingActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".SignInActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".PopUpActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog"></activity>
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".PopUpAutoActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog"></activity>
     </application>
 

@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by HeeJack on 2018-05-21.
@@ -28,7 +30,7 @@ import java.util.Date;
 
 public class AddActivity extends AppCompatActivity {
     Button button, buttonAuto;
-    TextView textViewStart, textViewEnd,  textViewMark, textViewBase;
+    TextView textViewStart, textViewEnd, textViewMark, textViewBase;
     EditText editTextProf, editTextCourse;
     ListView listViewAll, listViewAdd;
     Spinner spinner1, spinner2;
@@ -39,31 +41,45 @@ public class AddActivity extends AppCompatActivity {
     FrameLayout frameLayout;
     static int hori, verti, thisverti1, thisverti2;
 
-//    @Override
-//    protected void onPostResume() {
-//        super.onPostResume();
-//        lectureMyList = MainActivity.dbHelper.getMyLectureData();
-//        ArrayList<Lecture> lectures = MainActivity.dbHelper.getMyLectureData();
-//        for (Lecture lecture : lectures) {
-//            makeMyLectureTable(lecture);
-//            Log.i("Data", "Resume");
-//        }
-//    }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        lectureMyList = MainActivity.dbHelper.getMyLectureData();
+        ArrayList<Lecture> lectures = MainActivity.dbHelper.getMyLectureData();
+
+        for (Lecture lecture : lectures) {
+            makeMyLectureTable(lecture);
+            Log.i("Make", "Make : ADD 테이블 만드는중");
+
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
-        lectureMyList = MainActivity.dbHelper.getMyLectureData();
-        textViewMark = (TextView) findViewById(R.id.textView102);
+//        lectureMyList = MainActivity.dbHelper.getMyLectureData();
+        textViewMark = (TextView) findViewById(R.id.textViewMon);
+        textViewBase = (TextView) findViewById(R.id.br);
 
-        hori = textViewMark.getWidth();
-        verti = textViewMark.getHeight();
-        Log.i("Location", "Hori : "+hori+"/Verti : "+verti);
+        lectureMyList = MainActivity.dbHelper.getMyLectureData();
+        Log.i("MyList", "MyList"+lectureMyList.size());
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hori = textViewMark.getWidth();
+                verti = textViewMark.getHeight();
+                Log.i("Location", "Hori : " + hori + "/Verti : " + verti);
+
+                for(Lecture thisLecture : lectureMyList) {
+                    makeMyLectureTable(thisLecture);
+                }
+            }
+        }, 10);
 
         frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
-        textViewBase = (TextView) findViewById(R.id.br);
 
         editTextProf = (EditText) findViewById(R.id.editTextProf);
         editTextCourse = (EditText) findViewById(R.id.editTextCourse);
@@ -105,7 +121,7 @@ public class AddActivity extends AppCompatActivity {
         /*전체 강의목록 리스트뷰*/
         listViewAll = (ListView) findViewById(R.id.listViewAllLecture);
         lectureAdapter = new LectureAdapter();
-        myLectureAdapter = new LectureAdapter();
+//        myLectureAdapter = new LectureAdapter();
         listViewAll.setAdapter(lectureAdapter);
         listViewAll.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -120,14 +136,33 @@ public class AddActivity extends AppCompatActivity {
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-//                                            lectureMyList.add(lectureList.get(position));
-                                        MainActivity.dbHelper.addMyTable(lectureList.get(position));
-                                        lectureMyList = MainActivity.dbHelper.getMyLectureData();
+                                        Log.i("MyList", "MyList"+lectureMyList.size());
+                                        if(lectureMyList.size()<=6){
+                                            lectureMyList.add(lectureList.get(position));
+                                            MainActivity.dbHelper.addMyTable(lectureList.get(position));
+
+                                            makeMyLectureTable(lectureList.get(position));
+                                        }
+                                        else{
+                                            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddActivity.this);
+
+                                            alertBuilder.setTitle("확인");
+                                            alertBuilder.setMessage("더 이상 추가할 수 없습니다")
+                                                    .setCancelable(false)
+                                                    .setPositiveButton("확인",
+                                                            new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                                    dialogInterface.cancel();
+                                                                }
+                                                            });
+                                            AlertDialog alertDialog = alertBuilder.create();
+                                            alertDialog.show();
+                                        }
 //                                        for(int t = 0; t<lectureMyList.size(); t++){
 //                                            myLectureAdapter.addLecture(lectureMyList.get(position));
 //                                        }
 //                                        myLectureAdapter.notifyDataSetChanged();
-                                        makeMyLectureTable(lectureList.get(position));
 //                                        int[] param = calcLocation(lectureList.get(position));
 //                                        Log.i("Location", "" + param[0] + "/" + param[1] + "/" + param[2] + "/" + param[3]);
 //                                        //텍스트뷰 크기
@@ -253,7 +288,7 @@ public class AddActivity extends AppCompatActivity {
         {
             @Override
             public void onClick(View view) {
-                pullAllLecture();
+                pullAllLecture(setCondition());
             }
         });
         buttonAuto.setOnClickListener(new View.OnClickListener()
@@ -265,24 +300,54 @@ public class AddActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
-    public void makeMyLectureTable(Lecture lecture) {
+    public void makeMyLectureTable(final Lecture lecture) {
 //        ArrayList<Lecture> lectures = MainActivity.dbHelper.getMyLectureData();
-//        hori = textViewMark.getWidth();
-//        verti = textViewMark.getHeight();
 
-        Log.i("Data", lecture.getTitle());
         int[] param = calcLocation(lecture);
+        int color = Color.argb(255, new Random().nextInt(256),new Random().nextInt(256),new Random().nextInt(256));
+
         Log.i("Location", "" + param[0] + "/" + param[1] + "/" + param[2] + "/" + param[3]);
         //텍스트뷰 크기
         FrameLayout.LayoutParams params1 = new FrameLayout.LayoutParams(hori, thisverti1);
         //강의 위치
         params1.leftMargin = param[0];
         params1.topMargin = param[1];
-        TextView firstLecture = new TextView(AddActivity.this);
-        firstLecture.setBackgroundColor(Color.parseColor("#FF9999"));
+        final TextView firstLecture = new TextView(AddActivity.this);
+        final TextView secondLecture = new TextView(AddActivity.this);
+        firstLecture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddActivity.this);
+
+                alertBuilder.setTitle("확인");
+                alertBuilder.setMessage("일정을 삭제하시겠습니까?")
+                        .setCancelable(false)
+                        .setPositiveButton("확인",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        lectureMyList.remove(lecture);
+                                        MainActivity.dbHelper.deleteLecture(lecture);
+                                        frameLayout.removeView(firstLecture);
+                                        frameLayout.removeView(secondLecture);
+
+                                    }
+                                })
+                        .setNegativeButton("취소",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                });
+
+                AlertDialog alertDialog = alertBuilder.create();
+                alertDialog.show();
+            }
+        });
+        firstLecture.setBackgroundColor(color);
         firstLecture.setText(lecture.getTitle());
         frameLayout.addView(firstLecture, params1);
 
@@ -292,8 +357,37 @@ public class AddActivity extends AppCompatActivity {
             //강의 위치
             params2.leftMargin = param[2];
             params2.topMargin = param[3];
-            TextView secondLecture = new TextView(AddActivity.this);
-            secondLecture.setBackgroundColor(Color.parseColor("#FF9999"));
+            secondLecture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddActivity.this);
+
+                    alertBuilder.setTitle("확인");
+                    alertBuilder.setMessage("일정을 삭제하시겠습니까?")
+                            .setCancelable(false)
+                            .setPositiveButton("확인",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            lectureMyList.remove(lecture);
+                                            MainActivity.dbHelper.deleteLecture(lecture);
+                                            frameLayout.removeView(firstLecture);
+                                            frameLayout.removeView(secondLecture);
+                                        }
+                                    })
+                            .setNegativeButton("취소",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.cancel();
+                                        }
+                                    });
+
+                    AlertDialog alertDialog = alertBuilder.create();
+                    alertDialog.show();
+                }
+            });
+            secondLecture.setBackgroundColor(color);
             secondLecture.setText(lecture.getTitle());
             frameLayout.addView(secondLecture, params2);
         }
@@ -305,50 +399,39 @@ public class AddActivity extends AppCompatActivity {
         int base = textViewBase.getWidth();
         switch (Day) {
             case "월":
-                return 0 * hori + base;
+                return (0 * hori) + base;
             case "화":
-                return 1 * hori + base;
+                return (1 * hori) + base;
             case "수":
-                return 2 * hori + base;
+                return (2 * hori) + base;
             case "목":
-                return 3 * hori + base;
+                return (3 * hori) + base;
             case "금":
-                return 4 * hori + base;
+                return (4 * hori) + base;
         }
         return 0;
     }
 
     public int timeLocation(String Time) {
         int base = textViewBase.getHeight();
-        Log.i("Location", "높이 : " + base);
+        long location = base;
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+            Date STime1 = simpleDateFormat.parse(Time);
+            Date standardTime = simpleDateFormat.parse("09:00");
+            Log.i("Location", "base"+(STime1.getTime() - standardTime.getTime()));
 
-        switch (Time) {
-            case "09:00":
-                return 0 * verti + base;
-            case "10:00":
-                return 1 * verti + base;
-            case "11:00":
-                return 2 * verti + base;
-            case "12:00":
-                return 3 * verti + base;
-            case "13:00":
-                return 4 * verti + base;
-            case "14:00":
-                return 5 * verti + base;
-            case "15:00":
-                return 6 * verti + base;
-            case "16:00":
-                return 7 * verti + base;
-            case "17:00":
-                return 8 * verti + base;
-            case "18:00":
-                return 9 * verti + base;
-            case "19:00":
-                return 10 * verti + base;
-            case "20:00":
-                return 11 * verti + base;
+            location = (int)(STime1.getTime() - standardTime.getTime());
+            location = location/60000;
+
+            return base+(int)location;
+
+        }catch (Exception e1){
+            e1.printStackTrace();
         }
-        return base;
+        finally {
+            return base+(int)location;
+        }
     }
 
     public void calcSize(Lecture lecture) {
@@ -367,9 +450,9 @@ public class AddActivity extends AppCompatActivity {
             size1 = size1 / 60000;
             size2 = size2 / 60000;
 
-            thisverti1 = (int) size1 / (verti / 30);
-            thisverti2 = (int) size2 / (verti / 30);
-            Log.i("Location", "verti : " + verti +  "/size1 : "+ size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
+            thisverti1 = (int) size1;
+            thisverti2 = (int) size2;
+            Log.i("Location", "verti : " + verti + "stime2: "+STime2.getTime()+"stime1: "+STime2.getTime()+"/size1 : " + size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -392,10 +475,28 @@ public class AddActivity extends AppCompatActivity {
         return loca;
     }
 
+    public String[] setCondition(){
+        String[] condition = new String[6];
+        condition[0] = editTextProf.getText().toString();
+        condition[1] = editTextCourse.getText().toString();
+        condition[2] = spinner1.getSelectedItem().toString();
+        condition[3] = spinner2.getSelectedItem().toString();
+        if(condition[2].equals("구분")){
+            condition[2] = "";
+        }
+        if(condition[3].equals("날짜")){
+            condition[3] = "";
+        }
+        condition[4] = textViewStart.getText().toString();
+        condition[5] = textViewEnd.getText().toString();
+        Log.i("Condition", condition[0]+"/"+condition[1]+"/"+condition[2]+"/"+condition[3]+"/"+condition[4]+"/"+condition[5]);
+        return condition;
+    }
 
-    public void pullAllLecture() {
+
+    public void pullAllLecture(String[] condition) {
         lectureAdapter.deleteList();
-        lectureList = MainActivity.dbHelper.getAllLectureData();
+        lectureList = MainActivity.dbHelper.getAllLectureData(condition);
 //        lectureList.add(new Lecture());
         Log.i("ListView", "" + lectureList);
 
