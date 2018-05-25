@@ -44,9 +44,11 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     SharedPreferences myInfo;
     ArrayList<Lecture> lectureMyList;
+    ArrayList<TextView> textViewArrayList;
     MenuItem menuItem;
     TextView textViewMark, textViewBase;
     FrameLayout frameLayout;
+
 
     static int hori, verti, thisverti1, thisverti2;
 
@@ -72,7 +74,12 @@ public class MainActivity extends AppCompatActivity {
         lectureMyList = dbHelper.getMyLectureData();
         ArrayList<Lecture> lectures = dbHelper.getMyLectureData();
 
-        frameLayout.removeAllViews();
+
+        for (TextView tv : textViewArrayList) {
+            frameLayout.removeView(tv);
+        }
+        
+        textViewArrayList.removeAll(textViewArrayList);
 
         for (Lecture lecture : lectures) {
             makeMyLectureTable(lecture);
@@ -86,9 +93,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        textViewArrayList = new ArrayList<TextView>();
         textViewMark = (TextView) findViewById(R.id.mainTextView91);
         textViewBase = (TextView) findViewById(R.id.mainBr);
         frameLayout = (FrameLayout) findViewById(R.id.mainFrameLayout);
+
 
         menuItem = null;
 
@@ -145,10 +154,10 @@ public class MainActivity extends AppCompatActivity {
                         floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
                         break;
                     case 1:
-                        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFF00")));
+                        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ffff84")));
                         break;
                     case 2:
-                        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00FFFF")));
+                        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#83b3f7")));
                         break;
                 }
 
@@ -161,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
         int[] param = calcLocation(lecture);
         Log.i("Location", "" + param[0] + "/" + param[1] + "/" + param[2] + "/" + param[3]);
-        int color = Color.argb(255, new Random().nextInt(256),new Random().nextInt(256),new Random().nextInt(256));
+        int color = Color.argb(255, new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256));
         //텍스트뷰 크기
         FrameLayout.LayoutParams params1 = new FrameLayout.LayoutParams(hori, thisverti1);
         //강의 위치
@@ -196,6 +205,8 @@ public class MainActivity extends AppCompatActivity {
             frameLayout.addView(secondLecture, params2);
         }
 
+        textViewArrayList.add(firstLecture);
+        textViewArrayList.add(secondLecture);
 
     }
 

@@ -64,7 +64,7 @@ public class AddActivity extends AppCompatActivity {
         textViewBase = (TextView) findViewById(R.id.br);
 
         lectureMyList = MainActivity.dbHelper.getMyLectureData();
-        Log.i("MyList", "MyList"+lectureMyList.size());
+        Log.i("MyList", "MyList" + lectureMyList.size());
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -73,7 +73,7 @@ public class AddActivity extends AppCompatActivity {
                 verti = textViewMark.getHeight();
                 Log.i("Location", "Hori : " + hori + "/Verti : " + verti);
 
-                for(Lecture thisLecture : lectureMyList) {
+                for (Lecture thisLecture : lectureMyList) {
                     makeMyLectureTable(thisLecture);
                 }
             }
@@ -136,14 +136,30 @@ public class AddActivity extends AppCompatActivity {
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        Log.i("MyList", "MyList"+lectureMyList.size());
-                                        if(lectureMyList.size()<=6){
-                                            lectureMyList.add(lectureList.get(position));
-                                            MainActivity.dbHelper.addMyTable(lectureList.get(position));
+                                        Log.i("MyList", "MyList" + lectureMyList.size());
+                                        if (lectureMyList.size() <= 6) {
+                                            if (timeCheck((Lecture) lectureAdapter.getItem(position))) {
+                                                lectureMyList.add(lectureList.get(position));
+                                                MainActivity.dbHelper.addMyTable(lectureList.get(position));
 
-                                            makeMyLectureTable(lectureList.get(position));
-                                        }
-                                        else{
+                                                makeMyLectureTable(lectureList.get(position));
+                                            } else {
+                                                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddActivity.this);
+
+                                                alertBuilder.setTitle("확인");
+                                                alertBuilder.setMessage("강의 시간을 확인해주세요")
+                                                        .setCancelable(false)
+                                                        .setPositiveButton("확인",
+                                                                new DialogInterface.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                                        dialogInterface.cancel();
+                                                                    }
+                                                                });
+                                                AlertDialog alertDialog = alertBuilder.create();
+                                                alertDialog.show();
+                                            }
+                                        } else {
                                             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddActivity.this);
 
                                             alertBuilder.setTitle("확인");
@@ -302,11 +318,57 @@ public class AddActivity extends AppCompatActivity {
         });
     }
 
+    public boolean timeCheck(Lecture lecture) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+        boolean chk = false;
+        for (Lecture thisLecture : lectureMyList) {
+            try {
+                if (thisLecture.getDay1() == lecture.getDay1()) {//첫날이 같으면
+                    if ((simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
+                            simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getSTime2()).getTime()) ||
+                            (simpleDateFormat.parse(thisLecture.getSTime2()).getTime() < simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
+                                    simpleDateFormat.parse(thisLecture.getSTime2()).getTime() < simpleDateFormat.parse(lecture.getSTime2()).getTime()
+                            )) {
+                        chk = true;
+                    }
+                } else if (thisLecture.getDay2() == lecture.getDay2()) {//둘째날이 같으면
+                    if ((simpleDateFormat.parse(thisLecture.getETime1()).getTime() > simpleDateFormat.parse(lecture.getETime1()).getTime() &&
+                            simpleDateFormat.parse(thisLecture.getETime1()).getTime() > simpleDateFormat.parse(lecture.getETime2()).getTime()) ||
+                            (simpleDateFormat.parse(thisLecture.getETime2()).getTime() < simpleDateFormat.parse(lecture.getETime1()).getTime() &&
+                                    simpleDateFormat.parse(thisLecture.getETime2()).getTime() < simpleDateFormat.parse(lecture.getETime2()).getTime()
+                            )) {
+                        chk = true;
+                    }
+                } else if (thisLecture.getDay1() == lecture.getDay2()) {//첫째날이 둘째날과 같으면
+                    if ((simpleDateFormat.parse(thisLecture.getETime1()).getTime() > simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
+                            simpleDateFormat.parse(thisLecture.getETime1()).getTime() > simpleDateFormat.parse(lecture.getSTime2()).getTime()) ||
+                            (simpleDateFormat.parse(thisLecture.getETime2()).getTime() < simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
+                                    simpleDateFormat.parse(thisLecture.getETime2()).getTime() < simpleDateFormat.parse(lecture.getSTime2()).getTime()
+                            )) {
+                        chk = true;
+                    }
+                } else if (thisLecture.getDay2() == lecture.getDay1()) {//둘째날이 첫째날과 같으면
+                    if ((simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getETime1()).getTime() &&
+                            simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getETime2()).getTime()) ||
+                            (simpleDateFormat.parse(thisLecture.getSTime2()).getTime() < simpleDateFormat.parse(lecture.getETime1()).getTime() &&
+                                    simpleDateFormat.parse(thisLecture.getSTime2()).getTime() < simpleDateFormat.parse(lecture.getETime2()).getTime()
+                            )) {
+                        chk = true;
+                    }
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }
+
+        return true;
+    }
+
     public void makeMyLectureTable(final Lecture lecture) {
 //        ArrayList<Lecture> lectures = MainActivity.dbHelper.getMyLectureData();
 
         int[] param = calcLocation(lecture);
-        int color = Color.argb(255, new Random().nextInt(256),new Random().nextInt(256),new Random().nextInt(256));
+        int color = Color.argb(255, new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256));
 
         Log.i("Location", "" + param[0] + "/" + param[1] + "/" + param[2] + "/" + param[3]);
         //텍스트뷰 크기
@@ -419,18 +481,17 @@ public class AddActivity extends AppCompatActivity {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
             Date STime1 = simpleDateFormat.parse(Time);
             Date standardTime = simpleDateFormat.parse("09:00");
-            Log.i("Location", "base"+(STime1.getTime() - standardTime.getTime()));
+            Log.i("Location", "base" + (STime1.getTime() - standardTime.getTime()));
 
-            location = (int)(STime1.getTime() - standardTime.getTime());
-            location = location/60000;
+            location = (int) (STime1.getTime() - standardTime.getTime());
+            location = location / 60000;
 
-            return base+(int)location;
+            return base + (int) location;
 
-        }catch (Exception e1){
+        } catch (Exception e1) {
             e1.printStackTrace();
-        }
-        finally {
-            return base+(int)location;
+        } finally {
+            return base + (int) location;
         }
     }
 
@@ -452,7 +513,7 @@ public class AddActivity extends AppCompatActivity {
 
             thisverti1 = (int) size1;
             thisverti2 = (int) size2;
-            Log.i("Location", "verti : " + verti + "stime2: "+STime2.getTime()+"stime1: "+STime2.getTime()+"/size1 : " + size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
+            Log.i("Location", "verti : " + verti + "stime2: " + STime2.getTime() + "stime1: " + STime2.getTime() + "/size1 : " + size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -475,21 +536,21 @@ public class AddActivity extends AppCompatActivity {
         return loca;
     }
 
-    public String[] setCondition(){
+    public String[] setCondition() {
         String[] condition = new String[6];
         condition[0] = editTextProf.getText().toString();
         condition[1] = editTextCourse.getText().toString();
         condition[2] = spinner1.getSelectedItem().toString();
         condition[3] = spinner2.getSelectedItem().toString();
-        if(condition[2].equals("구분")){
+        if (condition[2].equals("구분")) {
             condition[2] = "";
         }
-        if(condition[3].equals("날짜")){
+        if (condition[3].equals("날짜")) {
             condition[3] = "";
         }
         condition[4] = textViewStart.getText().toString();
         condition[5] = textViewEnd.getText().toString();
-        Log.i("Condition", condition[0]+"/"+condition[1]+"/"+condition[2]+"/"+condition[3]+"/"+condition[4]+"/"+condition[5]);
+        Log.i("Condition", condition[0] + "/" + condition[1] + "/" + condition[2] + "/" + condition[3] + "/" + condition[4] + "/" + condition[5]);
         return condition;
     }
 
