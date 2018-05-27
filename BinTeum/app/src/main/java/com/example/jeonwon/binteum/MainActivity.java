@@ -2,27 +2,23 @@ package com.example.jeonwon.binteum;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.InputStream;
@@ -49,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textViewMark, textViewBase;
     FrameLayout frameLayout;
 
-
-    static int hori, verti, thisverti1, thisverti2;
+    static int hori, verti;
 
 
     @Override
@@ -78,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         for (TextView tv : textViewArrayList) {
             frameLayout.removeView(tv);
         }
-        
+
         textViewArrayList.removeAll(textViewArrayList);
 
         for (Lecture lecture : lectures) {
@@ -91,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
 
         textViewArrayList = new ArrayList<TextView>();
@@ -121,14 +117,14 @@ public class MainActivity extends AppCompatActivity {
 
                 hori = textViewMark.getWidth();
                 verti = textViewMark.getHeight();
-                Log.i("Location", "Hori : " + hori + "/Verti : " + verti);
+                Log.i("Location", "최초 Hori : " + hori + "/Verti : " + verti);
 
                 for (Lecture thisLecture : lectureMyList) {
                     Log.i("Make", "Make : 메인 테이블 만드는중");
                     makeMyLectureTable(thisLecture);
                 }
             }
-        }, 100);
+        }, 1000);
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -169,10 +165,12 @@ public class MainActivity extends AppCompatActivity {
 //        ArrayList<Lecture> lectures = MainActivity.dbHelper.getMyLectureData();
 
         int[] param = calcLocation(lecture);
-        Log.i("Location", "" + param[0] + "/" + param[1] + "/" + param[2] + "/" + param[3]);
+        Log.i("Location", "첫째날 위치 : " + param[0] + "/둘째날 위치 : " + param[1] + "/" + param[2] + "/" + param[3]);
         int color = Color.argb(255, new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256));
+        final Intent intent = new Intent(MainActivity.this, PopUpDetailActivity.class);
+        intent.putExtra("Lecture", lecture.getLecture());
         //텍스트뷰 크기
-        FrameLayout.LayoutParams params1 = new FrameLayout.LayoutParams(hori, thisverti1);
+        FrameLayout.LayoutParams params1 = new FrameLayout.LayoutParams(hori, param[4]);
         //강의 위치
         params1.leftMargin = param[0];
         params1.topMargin = param[1];
@@ -181,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
         firstLecture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-
+                startActivity(intent);
             }
         });
         firstLecture.setBackgroundColor(color);
@@ -190,14 +188,14 @@ public class MainActivity extends AppCompatActivity {
 
         if (!lecture.getDay2().equals("")) {
             //텍스트뷰 크기
-            FrameLayout.LayoutParams params2 = new FrameLayout.LayoutParams(hori, thisverti2);
+            FrameLayout.LayoutParams params2 = new FrameLayout.LayoutParams(hori, param[5]);
             //강의 위치
             params2.leftMargin = param[2];
             params2.topMargin = param[3];
             secondLecture.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    startActivity(intent);
                 }
             });
             secondLecture.setBackgroundColor(color);
@@ -229,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
 
     public int timeLocation(String Time) {
         int base = textViewBase.getHeight();
-        long location = base;
+        long location;
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
             Date STime1 = simpleDateFormat.parse(Time);
@@ -243,48 +241,89 @@ public class MainActivity extends AppCompatActivity {
 
         } catch (Exception e1) {
             e1.printStackTrace();
-        } finally {
-            return base + (int) location;
+            return 0;
         }
     }
 
-    public void calcSize(Lecture lecture) {
+    public int[] calcSize(Lecture lecture) {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-        try {
-            Date STime1 = simpleDateFormat.parse(lecture.getSTime1());
-            Date STime2 = simpleDateFormat.parse(lecture.getSTime2());
-            Date ETime1 = simpleDateFormat.parse(lecture.getETime1());
-            Date ETime2 = simpleDateFormat.parse(lecture.getETime2());
+        long size1 = 0, size2 = 0;
+        if(lecture.getETime1().equals("")){
+            try {
+                Date STime1 = simpleDateFormat.parse(lecture.getSTime1());
+                Date STime2 = simpleDateFormat.parse(lecture.getSTime2());
 
-            //몇분짜리인지 계산
-            long size1 = STime2.getTime() - STime1.getTime();
-            long size2 = ETime2.getTime() - ETime1.getTime();
 
-            size1 = size1 / 60000;
-            size2 = size2 / 60000;
 
-            thisverti1 = (int) size1 * 2;
-            thisverti2 = (int) size2 * 2;
-            Log.i("Location", "verti : " + verti + "/size1 : " + size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
+                size1 = STime2.getTime() - STime1.getTime();
+//                Log.i("Location", "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
 
-        } catch (ParseException e) {
-            e.printStackTrace();
+                //몇분짜리인지 계산
+                size1 = size1 / 60000;
+
+//            thisverti1 = (int) size1;
+//            thisverti2 = (int) size2;
+
+
+//            Log.i("Location", "verti : " + verti + "stime2: " + STime2.getTime() + "stime1: " + STime1.getTime() + "/size1 : " + size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
+
+                return new int[]{(int) size1, 0};
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.i("Location", "SIZE2 ERROR");
+                return new int[]{(int)size1, 0};
+            }
         }
+        else{
+            try {
+                Date STime1 = simpleDateFormat.parse(lecture.getSTime1());
+                Date STime2 = simpleDateFormat.parse(lecture.getSTime2());
 
+                Date ETime1 = simpleDateFormat.parse(lecture.getETime1());
+                Date ETime2 = simpleDateFormat.parse(lecture.getETime2());
+
+
+                size1 = STime2.getTime() - STime1.getTime();
+                size2 = ETime2.getTime() - ETime1.getTime();
+//                Log.i("Location", "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
+
+                //몇분짜리인지 계산
+                size1 = size1 / 60000;
+                size2 = size2 / 60000;
+
+//            thisverti1 = (int) size1;
+//            thisverti2 = (int) size2;
+
+
+//            Log.i("Location", "verti : " + verti + "stime2: " + STime2.getTime() + "stime1: " + STime1.getTime() + "/size1 : " + size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
+
+                return new int[]{(int) size1, (int) size2};
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.i("Location", "SIZE2 ERROR");
+                return new int[]{(int) size1, (int) size2};
+            }
+        }
     }
 
     public int[] calcLocation(Lecture lecture) {
-        int[] loca = new int[4];
+        int[] loca = new int[6];
         Log.i("Location", "Day1 : " + lecture.getDay1() + "/ Day2 : " + lecture.getDay2() + "/ STime : " + lecture.getSTime1() + "/ ETime : " + lecture.getETime1() + "/");
 
         loca[0] = dayLocation(lecture.getDay1());
-        loca[2] = dayLocation(lecture.getDay2());
-
+        if (!lecture.getDay2().equals("")) {
+            loca[2] = dayLocation(lecture.getDay2());
+        }
         loca[1] = timeLocation(lecture.getSTime1());
-        loca[3] = timeLocation(lecture.getETime1());
+        if (!lecture.getETime1().equals("")) {
+            loca[3] = timeLocation(lecture.getETime1());
+        }
 
-        calcSize(lecture);
+        loca[4] = calcSize(lecture)[0];
+        loca[5] = calcSize(lecture)[1];
 
         return loca;
     }

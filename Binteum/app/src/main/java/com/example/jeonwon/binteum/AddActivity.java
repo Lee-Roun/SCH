@@ -2,6 +2,7 @@ package com.example.jeonwon.binteum;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,11 +40,12 @@ public class AddActivity extends AppCompatActivity {
     LectureAdapter lectureAdapter, myLectureAdapter;
     String[] type, days;
     FrameLayout frameLayout;
-    static int hori, verti, thisverti1, thisverti2;
+    static int hori, verti;
 
     @Override
     protected void onRestart() {
         super.onRestart();
+
         lectureMyList = MainActivity.dbHelper.getMyLectureData();
         ArrayList<Lecture> lectures = MainActivity.dbHelper.getMyLectureData();
 
@@ -57,6 +59,7 @@ public class AddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_add);
 
 //        lectureMyList = MainActivity.dbHelper.getMyLectureData();
@@ -138,27 +141,27 @@ public class AddActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         Log.i("MyList", "MyList" + lectureMyList.size());
                                         if (lectureMyList.size() <= 6) {
-                                            if (timeCheck((Lecture) lectureAdapter.getItem(position))) {
-                                                lectureMyList.add(lectureList.get(position));
-                                                MainActivity.dbHelper.addMyTable(lectureList.get(position));
+//                                            if (timeCheck((Lecture) lectureAdapter.getItem(position))) {
+                                            lectureMyList.add(lectureList.get(position));
+                                            MainActivity.dbHelper.addMyTable(lectureList.get(position));
 
-                                                makeMyLectureTable(lectureList.get(position));
-                                            } else {
-                                                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddActivity.this);
-
-                                                alertBuilder.setTitle("확인");
-                                                alertBuilder.setMessage("강의 시간을 확인해주세요")
-                                                        .setCancelable(false)
-                                                        .setPositiveButton("확인",
-                                                                new DialogInterface.OnClickListener() {
-                                                                    @Override
-                                                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                                                        dialogInterface.cancel();
-                                                                    }
-                                                                });
-                                                AlertDialog alertDialog = alertBuilder.create();
-                                                alertDialog.show();
-                                            }
+                                            makeMyLectureTable(lectureList.get(position));
+//                                            } else {
+////                                                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddActivity.this);
+////
+////                                                alertBuilder.setTitle("확인");
+////                                                alertBuilder.setMessage("강의 시간을 확인해주세요")
+////                                                        .setCancelable(false)
+////                                                        .setPositiveButton("확인",
+////                                                                new DialogInterface.OnClickListener() {
+////                                                                    @Override
+////                                                                    public void onClick(DialogInterface dialogInterface, int i) {
+////                                                                        dialogInterface.cancel();
+////                                                                    }
+////                                                                });
+////                                                AlertDialog alertDialog = alertBuilder.create();
+////                                                alertDialog.show();
+////                                            }
                                         } else {
                                             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddActivity.this);
 
@@ -372,7 +375,7 @@ public class AddActivity extends AppCompatActivity {
 
         Log.i("Location", "" + param[0] + "/" + param[1] + "/" + param[2] + "/" + param[3]);
         //텍스트뷰 크기
-        FrameLayout.LayoutParams params1 = new FrameLayout.LayoutParams(hori, thisverti1);
+        FrameLayout.LayoutParams params1 = new FrameLayout.LayoutParams(hori, param[4]);
         //강의 위치
         params1.leftMargin = param[0];
         params1.topMargin = param[1];
@@ -415,7 +418,7 @@ public class AddActivity extends AppCompatActivity {
 
         if (!lecture.getDay2().equals("")) {
             //텍스트뷰 크기
-            FrameLayout.LayoutParams params2 = new FrameLayout.LayoutParams(hori, thisverti2);
+            FrameLayout.LayoutParams params2 = new FrameLayout.LayoutParams(hori, param[5]);
             //강의 위치
             params2.leftMargin = param[2];
             params2.topMargin = param[3];
@@ -476,7 +479,7 @@ public class AddActivity extends AppCompatActivity {
 
     public int timeLocation(String Time) {
         int base = textViewBase.getHeight();
-        long location = base;
+        long location;
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
             Date STime1 = simpleDateFormat.parse(Time);
@@ -490,48 +493,87 @@ public class AddActivity extends AppCompatActivity {
 
         } catch (Exception e1) {
             e1.printStackTrace();
-        } finally {
-            return base + (int) location;
+            return 0;
         }
     }
 
-    public void calcSize(Lecture lecture) {
+    public int[] calcSize(Lecture lecture) {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-        try {
-            Date STime1 = simpleDateFormat.parse(lecture.getSTime1());
-            Date STime2 = simpleDateFormat.parse(lecture.getSTime2());
-            Date ETime1 = simpleDateFormat.parse(lecture.getETime1());
-            Date ETime2 = simpleDateFormat.parse(lecture.getETime2());
+        long size1 = 0, size2 = 0;
+        if(lecture.getETime1().equals("")){
+            try {
+                Date STime1 = simpleDateFormat.parse(lecture.getSTime1());
+                Date STime2 = simpleDateFormat.parse(lecture.getSTime2());
 
-            //몇분짜리인지 계산
-            long size1 = STime2.getTime() - STime1.getTime();
-            long size2 = ETime2.getTime() - ETime1.getTime();
 
-            size1 = size1 / 60000;
-            size2 = size2 / 60000;
 
-            thisverti1 = (int) size1;
-            thisverti2 = (int) size2;
-            Log.i("Location", "verti : " + verti + "stime2: " + STime2.getTime() + "stime1: " + STime2.getTime() + "/size1 : " + size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
+                size1 = STime2.getTime() - STime1.getTime();
+//                Log.i("Location", "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
 
-        } catch (ParseException e) {
-            e.printStackTrace();
+                //몇분짜리인지 계산
+                size1 = size1 / 60000;
+
+//            thisverti1 = (int) size1;
+//            thisverti2 = (int) size2;
+
+
+//            Log.i("Location", "verti : " + verti + "stime2: " + STime2.getTime() + "stime1: " + STime1.getTime() + "/size1 : " + size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
+
+                return new int[]{(int) size1, 0};
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return new int[]{(int)size1, 0};
+            }
         }
+        else{
+            try {
+                Date STime1 = simpleDateFormat.parse(lecture.getSTime1());
+                Date STime2 = simpleDateFormat.parse(lecture.getSTime2());
 
+                Date ETime1 = simpleDateFormat.parse(lecture.getETime1());
+                Date ETime2 = simpleDateFormat.parse(lecture.getETime2());
+
+
+                size1 = STime2.getTime() - STime1.getTime();
+                size2 = ETime2.getTime() - ETime1.getTime();
+//                Log.i("Location", "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
+
+                //몇분짜리인지 계산
+                size1 = size1 / 60000;
+                size2 = size2 / 60000;
+
+//            thisverti1 = (int) size1;
+//            thisverti2 = (int) size2;
+
+
+//            Log.i("Location", "verti : " + verti + "stime2: " + STime2.getTime() + "stime1: " + STime1.getTime() + "/size1 : " + size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
+
+                return new int[]{(int) size1, (int) size2};
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return new int[]{(int) size1, (int) size2};
+            }
+        }
     }
 
     public int[] calcLocation(Lecture lecture) {
-        int[] loca = new int[4];
+        int[] loca = new int[6];
         Log.i("Location", "Day1 : " + lecture.getDay1() + "/ Day2 : " + lecture.getDay2() + "/ STime : " + lecture.getSTime1() + "/ ETime : " + lecture.getETime1() + "/");
 
         loca[0] = dayLocation(lecture.getDay1());
-        loca[2] = dayLocation(lecture.getDay2());
-
+        if (!lecture.getDay2().equals("")) {
+            loca[2] = dayLocation(lecture.getDay2());
+        }
         loca[1] = timeLocation(lecture.getSTime1());
-        loca[3] = timeLocation(lecture.getETime1());
+        if (!lecture.getETime1().equals("")) {
+            loca[3] = timeLocation(lecture.getETime1());
+        }
 
-        calcSize(lecture);
+        loca[4] = calcSize(lecture)[0];
+        loca[5] = calcSize(lecture)[1];
 
         return loca;
     }

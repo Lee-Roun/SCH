@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:layout_editor_absoluteY="81dp">
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTitle">
+
+        <TextView
+            android:id="@+id/textViewN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="강의 번호"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textViewNum"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+
+        <TextView
+            android:id="@+id/textViewNa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="강의 이름"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <TextView
+            android:id="@+id/textViewT"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="강의 시간"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <TextView
+            android:id="@+id/textViewProf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="담당 교수"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textViewProfessor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+        <TextView
+            android:id="@+id/textViewL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="강의 언어"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textViewLang"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+        <TextView
+            android:id="@+id/textViewG"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="강의 성적"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textViewGrade"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+
+        <TextView
+            android:id="@+id/textViewTy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="강의 타입"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textViewType"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
+
+        <TextView
+            android:id="@+id/textViewTa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="수강 대상"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textViewTarget"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout9"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
+
+        <TextView
+            android:id="@+id/textViewUn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="대학교"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textViewUniv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:background="#000000"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
+
+        <Button
+            android:id="@+id/buttonDetailOK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#000000"
+            android:text="확인"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:background="#f78d8f"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="강의 정보"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
+
+

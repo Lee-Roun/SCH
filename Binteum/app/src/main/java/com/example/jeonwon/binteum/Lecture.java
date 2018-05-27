@@ -189,4 +189,12 @@ public class Lecture {
         return this.L_Num;
     }
 
+    public String[] getLecture(){
+        String[] lecture = new String[]{String.valueOf(this.LID), this.L_Num, this.Title, this.FullInfo,
+                this.Day1, this.Day2, this.STime1, this.STime2, this.ETime1, this.ETime2,
+                this.Prof, this.Lang, this.Grade, this.Type, this.Target, this.Point, this.Univ};
+
+        return lecture;
+    }
+
 }

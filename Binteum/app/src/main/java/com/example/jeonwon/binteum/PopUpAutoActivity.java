@@ -1,5 +1,6 @@
 package com.example.jeonwon.binteum;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ public class PopUpAutoActivity extends AppCompatActivity {
         layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         layoutParams.dimAmount = 0.7f;
         getWindow().setAttributes(layoutParams);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_popup_auto);
 
         buttonCancle = (Button)findViewById(R.id.button2);

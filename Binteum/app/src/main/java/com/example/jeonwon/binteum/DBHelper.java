@@ -43,7 +43,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         StringBuffer createSQL2 = new StringBuffer();
         createSQL2.append(" CREATE TABLE MY_LECTURE ( ");
-        createSQL2.append(" LID INTEGER NOT NULL PRIMARY KEY, ");
+        createSQL2.append(" LID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ");
         createSQL2.append(" L_NUM TEXT, ");
         createSQL2.append(" TITLE TEXT, ");
         createSQL2.append(" FULLINFO TEXT, ");
@@ -108,13 +108,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
         StringBuffer insert = new StringBuffer();
         insert.append("INSERT INTO MY_LECTURE( ");
-        insert.append("LID, L_NUM, TITLE, FULLINFO, DAY1, STIME1, STIME2, DAY2, ETIME1, ETIME2, PROF, POINT, LANG, GRADE, TYPE, TARGET, UNIV) ");
-        insert.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        insert.append("L_NUM, TITLE, FULLINFO, DAY1, STIME1, STIME2, DAY2, ETIME1, ETIME2, PROF, POINT, LANG, GRADE, TYPE, TARGET, UNIV) ");
+        insert.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         Log.i("DELETE", "INSERT : "+lecture.getLID());
         db.execSQL(insert.toString(),
                 new Object[]{
-                        lecture.getLID(),
                         lecture.getL_Num(),
                         lecture.getTitle(),
                         lecture.getFullInfo(),
@@ -164,8 +163,8 @@ public class DBHelper extends SQLiteOpenHelper {
         if (condition[5].equals("")) {
             condition[5] = "23:59";
         }
-        selectAll.append("SELECT * FROM LECTURE WHERE PROF LIKE '" + condition[0] + "' AND TITLE LIKE '" + condition[1] +
-                "' AND TYPE LIKE '" + condition[2] + "' AND DAY1 LIKE '" + condition[3] + "' AND DAY2 LIKE '" + condition[3]
+        selectAll.append("SELECT * FROM LECTURE WHERE PROF LIKE '%" + condition[0] + "%' AND TITLE LIKE '%" + condition[1] +
+                "%' AND TYPE LIKE '%" + condition[2] + "%' AND DAY1 LIKE '" + condition[3] + "' AND DAY2 LIKE '" + condition[3]
                 + "' AND STIME1 >= '" + condition[4] + "'");
 
         Log.i("Query", " Q : " + selectAll.toString());

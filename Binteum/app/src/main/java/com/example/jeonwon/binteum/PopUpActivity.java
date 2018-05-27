@@ -1,6 +1,7 @@
 package com.example.jeonwon.binteum;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -23,6 +24,7 @@ public class PopUpActivity extends AppCompatActivity {
         layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         layoutParams.dimAmount = 0.7f;
         getWindow().setAttributes(layoutParams);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_popup);
 
 
