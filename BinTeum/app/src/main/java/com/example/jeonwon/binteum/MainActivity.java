@@ -62,27 +62,6 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(br);
     }
 
-
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        lectureMyList = dbHelper.getMyLectureData();
-//        ArrayList<Lecture> lectures = dbHelper.getMyLectureData();
-//
-//
-//        for (TextView tv : textViewArrayList) {
-//            frameLayout.removeView(tv);
-//        }
-//
-//        textViewArrayList.removeAll(textViewArrayList);
-//
-//        for (Lecture lecture : lectures) {
-//            makeMyLectureTable(lecture);
-//            Log.i("Make", "Make : 메인 테이블 만드는중");
-//        }
-//
-//    }
-
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -119,33 +98,12 @@ public class MainActivity extends AppCompatActivity {
         menuItem = null;
 
         myInfo = getSharedPreferences("myInfo", MODE_PRIVATE);
-        SharedPreferences.Editor editor = myInfo.edit();
-
-
-        //ture : 로그인 되있음 false : 로그인 안되있음
-//        listViewLecture = (ListView)findViewById(R.id.listViewAllLecture);
 
         if (dbHelper == null) {
             dbHelper = new DBHelper(getApplicationContext(), "LECTURE", null, 1);
             Excel();
             Log.i("DBHelp", "DB생성 완료");
         }
-
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                lectureMyList = dbHelper.getMyLectureData();
-//
-//                hori = textViewMark.getWidth();
-//                verti = textViewMark.getHeight();
-//                Log.i("Location", "최초 Hori : " + hori + "/Verti : " + verti);
-//
-//                for (Lecture thisLecture : lectureMyList) {
-//                    Log.i("Make", "Make : 메인 테이블 만드는중");
-//                    makeMyLectureTable(thisLecture);
-//                }
-//            }
-//        }, 1000);
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -183,8 +141,6 @@ public class MainActivity extends AppCompatActivity {
     };
 
     public void makeMyLectureTable(final Lecture lecture) {
-//        ArrayList<Lecture> lectures = MainActivity.dbHelper.getMyLectureData();
-
         int[] param = calcLocation(lecture);
         Log.i("Location", "첫째날 위치 : " + param[0] + "/둘째날 위치 : " + param[1] + "/" + param[2] + "/" + param[3]);
         int color = Color.argb(255, new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256));
@@ -275,16 +231,10 @@ public class MainActivity extends AppCompatActivity {
                 Date STime1 = simpleDateFormat.parse(lecture.getSTime1());
                 Date STime2 = simpleDateFormat.parse(lecture.getSTime2());
 
-
-
                 size1 = STime2.getTime() - STime1.getTime();
-//                Log.i("Location", "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
 
                 //몇분짜리인지 계산
                 size1 = size1 / 60000;
-
-
-//            Log.i("Location", "verti : " + verti + "stime2: " + STime2.getTime() + "stime1: " + STime1.getTime() + "/size1 : " + size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
 
                 return new int[]{(int) size1, 0};
 
@@ -305,14 +255,10 @@ public class MainActivity extends AppCompatActivity {
 
                 size1 = STime2.getTime() - STime1.getTime();
                 size2 = ETime2.getTime() - ETime1.getTime();
-//                Log.i("Location", "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
 
                 //몇분짜리인지 계산
                 size1 = size1 / 60000;
                 size2 = size2 / 60000;
-
-
-//            Log.i("Location", "verti : " + verti + "stime2: " + STime2.getTime() + "stime1: " + STime1.getTime() + "/size1 : " + size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
 
                 return new int[]{(int) size1, (int) size2};
 
@@ -362,7 +308,6 @@ public class MainActivity extends AppCompatActivity {
                     data[c] = cell.getContents();
                 }
                 Lecture lecture = new Lecture(data);
-//                Log.i("Data :", ""+data);
                 dbHelper.add(lecture);
             }
 
@@ -382,9 +327,6 @@ public class MainActivity extends AppCompatActivity {
                 menuItem.setTitle("로그인");
             }
         }
-
-        //여기서 사용자의 시간표를 읽어와서 표시해줘야함
-
     }
 
     @Override
@@ -416,8 +358,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 

@@ -5,14 +5,7 @@ public class Lecture {
             Prof, Lang, Grade, Type, Target, Point, Univ;
     private int LID;
 
-    public Lecture() {
-//        this.Title = "TEST";
-//        this.LID = 1;
-//        this.FullInfo = "테스트";
-//        this.L_Num = "10010-01";
-//        this.Prof = "아저씨";
-
-    }
+    public Lecture() {    }
 
     public Lecture(String L_Num, String Title, String FullInfo, String Day1, String STime1, String STime2,
                    String ETime1, String Day2, String ETime2, String Prof, String Point, String Lang, String Grade, String Type, String Target, String Univ) {
