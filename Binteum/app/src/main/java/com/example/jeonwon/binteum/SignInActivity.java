@@ -11,7 +11,7 @@ import android.widget.RadioGroup;
 
 public class SignInActivity extends AppCompatActivity {
 
-    EditText editTextID, editTextPW, editTextPWCF, editTextUniv, editTextField, editTextEmail;
+    EditText editTextID, editTextPW, editTextPWCF, editTextUniv, editTextField, editTextEmail, editTextName;
     RadioGroup radioGroup;
     Button buttonCancle, buttonSignIn;
     SharedPreferences myInfo;
@@ -30,9 +30,24 @@ public class SignInActivity extends AppCompatActivity {
         editTextPWCF= (EditText)findViewById(R.id.editTextSignPWCF);
         editTextUniv = (EditText)findViewById(R.id.editTextSignUniv);
         editTextField = (EditText)findViewById(R.id.editTextSignField);
+        editTextName = (EditText)findViewById(R.id.editTextSignName);
         editTextEmail = (EditText)findViewById(R.id.editTextSignEmail);
 
         radioGroup = (RadioGroup)findViewById(R.id.radioGroupGender);
+        final String[] gender = {null};
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (radioGroup.getId()){
+                    case R.id.radioButtonMan:
+                        gender[0] = "MAN";
+                        break;
+                    case R.id.radioButtonWoman:
+                        gender[0] = "WOMAN";
+                        break;
+                }
+            }
+        });
 
         buttonCancle = (Button)findViewById(R.id.buttonCancle);
         buttonSignIn = (Button)findViewById(R.id.buttonSignIn);
@@ -46,9 +61,15 @@ public class SignInActivity extends AppCompatActivity {
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-
+                User user = new User();
+                user.setID(editTextID.getText().toString());
+                user.setPW(editTextPW.getText().toString());
+                user.setUNIV(editTextUniv.getText().toString());
+                user.setFIELD(editTextField.getText().toString());
+                user.setEMAIL(editTextEmail.getText().toString());
+                user.setNAME(editTextName.getText().toString());
+                user.setGENDER(gender[0]);
+                MainActivity.dbHelper.addUser(user);
                 finish();
             }
         });

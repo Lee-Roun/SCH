@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by HeeJack on 2018-05-21.
@@ -221,40 +222,6 @@ public class AddActivity extends AppCompatActivity {
             }
         });
 
-        /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
-//        /*내 강의목록 리스트뷰*/
-//        listViewAdd = (ListView)findViewById(R.id.listViewAdded);
-//        listViewAdd.setAdapter(myLectureAdapter);
-//        listViewAdd.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
-//                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddActivity.this);
-//
-//                alertBuilder.setTitle("확인");
-//                alertBuilder.setMessage("일정을 삭제하시겠습니까?")
-//                        .setCancelable(false)
-//                        .setPositiveButton("확인",
-//                                new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialogInterface, int i) {
-//                                        myLectureAdapter.remove(lectureMyList.get(position));
-//                                    }
-//                                })
-//                        .setNegativeButton("취소",
-//                                new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialogInterface, int i) {
-//                                        dialogInterface.cancel();
-//                                    }
-//                                });
-//
-//                AlertDialog alertDialog = alertBuilder.create();
-//                alertDialog.show();
-//            }
-//        });
-//        /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
         spinner1 = (Spinner) findViewById(R.id.spinner1);
 
         spinner2 = (Spinner) findViewById(R.id.spinner2);
@@ -321,54 +288,85 @@ public class AddActivity extends AppCompatActivity {
         });
     }
 
-    public boolean timeCheck(Lecture lecture) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-        boolean chk = false;
-        for (Lecture thisLecture : lectureMyList) {
-            try {
-                if (thisLecture.getDay1() == lecture.getDay1()) {//첫날이 같으면
-                    if ((simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
-                            simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getSTime2()).getTime()) ||
-                            (simpleDateFormat.parse(thisLecture.getSTime2()).getTime() < simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
-                                    simpleDateFormat.parse(thisLecture.getSTime2()).getTime() < simpleDateFormat.parse(lecture.getSTime2()).getTime()
-                            )) {
-                        chk = true;
-                    }
-                } else if (thisLecture.getDay2() == lecture.getDay2()) {//둘째날이 같으면
-                    if ((simpleDateFormat.parse(thisLecture.getETime1()).getTime() > simpleDateFormat.parse(lecture.getETime1()).getTime() &&
-                            simpleDateFormat.parse(thisLecture.getETime1()).getTime() > simpleDateFormat.parse(lecture.getETime2()).getTime()) ||
-                            (simpleDateFormat.parse(thisLecture.getETime2()).getTime() < simpleDateFormat.parse(lecture.getETime1()).getTime() &&
-                                    simpleDateFormat.parse(thisLecture.getETime2()).getTime() < simpleDateFormat.parse(lecture.getETime2()).getTime()
-                            )) {
-                        chk = true;
-                    }
-                } else if (thisLecture.getDay1() == lecture.getDay2()) {//첫째날이 둘째날과 같으면
-                    if ((simpleDateFormat.parse(thisLecture.getETime1()).getTime() > simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
-                            simpleDateFormat.parse(thisLecture.getETime1()).getTime() > simpleDateFormat.parse(lecture.getSTime2()).getTime()) ||
-                            (simpleDateFormat.parse(thisLecture.getETime2()).getTime() < simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
-                                    simpleDateFormat.parse(thisLecture.getETime2()).getTime() < simpleDateFormat.parse(lecture.getSTime2()).getTime()
-                            )) {
-                        chk = true;
-                    }
-                } else if (thisLecture.getDay2() == lecture.getDay1()) {//둘째날이 첫째날과 같으면
-                    if ((simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getETime1()).getTime() &&
-                            simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getETime2()).getTime()) ||
-                            (simpleDateFormat.parse(thisLecture.getSTime2()).getTime() < simpleDateFormat.parse(lecture.getETime1()).getTime() &&
-                                    simpleDateFormat.parse(thisLecture.getSTime2()).getTime() < simpleDateFormat.parse(lecture.getETime2()).getTime()
-                            )) {
-                        chk = true;
-                    }
-                }
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        }
-
-        return true;
-    }
+//    public boolean timeCheck(Lecture lecture) {
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+//        boolean chk = false;
+//
+//        //내 강의목록들이랑 비교
+//        for (Lecture thisLecture : lectureMyList) {
+//            if(lecture.getETime1().equals("")){//둘쨰날이 없으면
+//                try {
+//                    if ((simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
+//                            simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getSTime2()).getTime()) ||
+//                            (simpleDateFormat.parse(thisLecture.getSTime1()).getTime() < simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
+//                                    simpleDateFormat.parse(thisLecture.getSTime2()).getTime() < simpleDateFormat.parse(lecture.getSTime2()).getTime()
+//                            )) {
+//                        chk = true;
+//                    }
+//                }catch(Exception e1){
+//
+//                }
+//            }
+//            else{//둘째날이 있으면
+//                try {
+//                    if (((simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
+//                            simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getSTime2()).getTime()) ||
+//                            (simpleDateFormat.parse(thisLecture.getSTime1()).getTime() < simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
+//                                    simpleDateFormat.parse(thisLecture.getSTime2()).getTime() < simpleDateFormat.parse(lecture.getSTime2()).getTime())
+//                            )&&
+//                            ((simpleDateFormat.parse(thisLecture.getETime1()).getTime() > simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
+//                            simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getSTime2()).getTime()) ||
+//                            (simpleDateFormat.parse(thisLecture.getSTime1()).getTime() < simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
+//                                    simpleDateFormat.parse(thisLecture.getSTime2()).getTime() < simpleDateFormat.parse(lecture.getSTime2()).getTime()))) {
+//                        chk = true;
+//                    }
+//                }catch(Exception e1){
+//
+//                }
+//            }
+//            try {
+//                if (thisLecture.getDay1() == lecture.getDay1()) {//첫날이 같으면
+//                    if ((simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
+//                            simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getSTime2()).getTime()) ||
+//                            (simpleDateFormat.parse(thisLecture.getSTime2()).getTime() < simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
+//                                    simpleDateFormat.parse(thisLecture.getSTime2()).getTime() < simpleDateFormat.parse(lecture.getSTime2()).getTime()
+//                            )) {
+//                        chk = true;
+//                    }
+//                } else if (thisLecture.getDay2() == lecture.getDay2()) {//둘째날이 같으면
+//                    if ((simpleDateFormat.parse(thisLecture.getETime1()).getTime() > simpleDateFormat.parse(lecture.getETime1()).getTime() &&
+//                            simpleDateFormat.parse(thisLecture.getETime1()).getTime() > simpleDateFormat.parse(lecture.getETime2()).getTime()) ||
+//                            (simpleDateFormat.parse(thisLecture.getETime2()).getTime() < simpleDateFormat.parse(lecture.getETime1()).getTime() &&
+//                                    simpleDateFormat.parse(thisLecture.getETime2()).getTime() < simpleDateFormat.parse(lecture.getETime2()).getTime()
+//                            )) {
+//                        chk = true;
+//                    }
+//                } else if (thisLecture.getDay1() == lecture.getDay2()) {//첫째날이 둘째날과 같으면
+//                    if ((simpleDateFormat.parse(thisLecture.getETime1()).getTime() > simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
+//                            simpleDateFormat.parse(thisLecture.getETime1()).getTime() > simpleDateFormat.parse(lecture.getSTime2()).getTime()) ||
+//                            (simpleDateFormat.parse(thisLecture.getETime2()).getTime() < simpleDateFormat.parse(lecture.getSTime1()).getTime() &&
+//                                    simpleDateFormat.parse(thisLecture.getETime2()).getTime() < simpleDateFormat.parse(lecture.getSTime2()).getTime()
+//                            )) {
+//                        chk = true;
+//                    }
+//                } else if (thisLecture.getDay2() == lecture.getDay1()) {//둘째날이 첫째날과 같으면
+//                    if ((simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getETime1()).getTime() &&
+//                            simpleDateFormat.parse(thisLecture.getSTime1()).getTime() > simpleDateFormat.parse(lecture.getETime2()).getTime()) ||
+//                            (simpleDateFormat.parse(thisLecture.getSTime2()).getTime() < simpleDateFormat.parse(lecture.getETime1()).getTime() &&
+//                                    simpleDateFormat.parse(thisLecture.getSTime2()).getTime() < simpleDateFormat.parse(lecture.getETime2()).getTime()
+//                            )) {
+//                        chk = true;
+//                    }
+//                }
+//            } catch (Exception e1) {
+//                e1.printStackTrace();
+//            }
+//        }
+//
+//        return true;
+//    }
 
     public void makeMyLectureTable(final Lecture lecture) {
-//        ArrayList<Lecture> lectures = MainActivity.dbHelper.getMyLectureData();
 
         int[] param = calcLocation(lecture);
         int color = Color.argb(255, new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256));
@@ -514,10 +512,6 @@ public class AddActivity extends AppCompatActivity {
                 //몇분짜리인지 계산
                 size1 = size1 / 60000;
 
-//            thisverti1 = (int) size1;
-//            thisverti2 = (int) size2;
-
-
 //            Log.i("Location", "verti : " + verti + "stime2: " + STime2.getTime() + "stime1: " + STime1.getTime() + "/size1 : " + size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
 
                 return new int[]{(int) size1, 0};
@@ -543,10 +537,6 @@ public class AddActivity extends AppCompatActivity {
                 //몇분짜리인지 계산
                 size1 = size1 / 60000;
                 size2 = size2 / 60000;
-
-//            thisverti1 = (int) size1;
-//            thisverti2 = (int) size2;
-
 
 //            Log.i("Location", "verti : " + verti + "stime2: " + STime2.getTime() + "stime1: " + STime1.getTime() + "/size1 : " + size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
 

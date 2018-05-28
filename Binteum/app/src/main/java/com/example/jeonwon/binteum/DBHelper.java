@@ -61,8 +61,20 @@ public class DBHelper extends SQLiteOpenHelper {
         createSQL2.append(" TARGET TEXT, ");
         createSQL2.append(" UNIV TEXT ) ");
 
+        StringBuffer createSQL3 = new StringBuffer();
+        createSQL3.append(" CREATE TABLE USER ( ");
+        createSQL3.append(" UID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ");
+        createSQL3.append(" ID TEXT, ");
+        createSQL3.append(" PW TEXT, ");
+        createSQL3.append(" NAME TEXT, ");
+        createSQL3.append(" GENDER TEXT, ");
+        createSQL3.append(" UNIV TEXT, ");
+        createSQL3.append(" FIELD TEXT, ");
+        createSQL3.append(" EMAIL TEXT ) ");
+
         sqLiteDatabase.execSQL(createSQL1.toString());
         sqLiteDatabase.execSQL(createSQL2.toString());
+        sqLiteDatabase.execSQL(createSQL3.toString());
 
 
         Log.i("DBHelper", "DB성공");
@@ -100,7 +112,40 @@ public class DBHelper extends SQLiteOpenHelper {
                         lecture.getUniv()
                 });
         db.close();
+    }
 
+    public void addUser(User user) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.execSQL("INSERT INTO USER(ID, PW, NAME, GENDER, UNIV, FIELD, EMAIL) VALUES('" + user.getID() + "', '" + user.getPW() + "', '" + user.getNAME() + "', '" + user.getGENDER() + "', '" + user.getUNIV() + "', '" + user.getFIELD() + "', '" + user.getEMAIL() + "');");
+        db.close();
+
+    }
+
+    public void deleteUser(User user) {
+        SQLiteDatabase db = getWritableDatabase();
+        Log.i("DELETE", "DELETE : " + user.getUID());
+        db.execSQL("DELETE FROM USER WHERE UID = " + user.getUID() + ";");
+        db.close();
+    }
+
+    public User checkUser(String userID) {
+        SQLiteDatabase db = getReadableDatabase();
+        Log.i("SELECT", "SELECT: " + userID);
+
+        Cursor cursor = db.rawQuery("SELECT * FROM USER WHERE ID='" + userID + "';", null);
+        User temp = new User();
+        cursor.moveToFirst();
+        temp.setUID(cursor.getInt(0));
+        temp.setID(cursor.getString(1));
+        temp.setPW(cursor.getString(2));
+        temp.setNAME(cursor.getString(3));
+        temp.setGENDER(cursor.getString(4));
+        temp.setUNIV(cursor.getString(5));
+        temp.setFIELD(cursor.getString(6));
+        temp.setEMAIL(cursor.getString(7));
+
+        return temp;
     }
 
     public void addMyTable(Lecture lecture) {
@@ -111,7 +156,7 @@ public class DBHelper extends SQLiteOpenHelper {
         insert.append("L_NUM, TITLE, FULLINFO, DAY1, STIME1, STIME2, DAY2, ETIME1, ETIME2, PROF, POINT, LANG, GRADE, TYPE, TARGET, UNIV) ");
         insert.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-        Log.i("DELETE", "INSERT : "+lecture.getLID());
+        Log.i("DELETE", "INSERT : " + lecture.getLID());
         db.execSQL(insert.toString(),
                 new Object[]{
                         lecture.getL_Num(),

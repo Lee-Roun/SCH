@@ -262,9 +262,6 @@ public class MainActivity extends AppCompatActivity {
                 //몇분짜리인지 계산
                 size1 = size1 / 60000;
 
-//            thisverti1 = (int) size1;
-//            thisverti2 = (int) size2;
-
 
 //            Log.i("Location", "verti : " + verti + "stime2: " + STime2.getTime() + "stime1: " + STime1.getTime() + "/size1 : " + size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);
 
@@ -292,9 +289,6 @@ public class MainActivity extends AppCompatActivity {
                 //몇분짜리인지 계산
                 size1 = size1 / 60000;
                 size2 = size2 / 60000;
-
-//            thisverti1 = (int) size1;
-//            thisverti2 = (int) size2;
 
 
 //            Log.i("Location", "verti : " + verti + "stime2: " + STime2.getTime() + "stime1: " + STime1.getTime() + "/size1 : " + size1 + "/size2 : " + size2 + "/thisverti1 : " + thisverti1 + "/thisverti2 : " + thisverti2);

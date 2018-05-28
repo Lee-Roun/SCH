@@ -47,14 +47,15 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(editTextID.getText().toString().equals("test") && editTextPW.getText().toString().equals("0000")){
+                User user = MainActivity.dbHelper.checkUser(editTextID.getText().toString());
+                if(editTextID.getText().toString().equals(user.getID()) && editTextPW.getText().toString().equals(user.getPW())){
                     editor.putBoolean("LOGINCHK", true);
                     editor.putString("ID", editTextID.getText().toString());
-                    editor.putString("PW", "0000");
-                    editor.putString("NAME", "이정원");
-                    editor.putString("GENDER", "남자");
-                    editor.putString("UNIV", "계명대");
-                    editor.putString("FIELD", "컴퓨터공학과");
+                    editor.putString("PW", user.getPW().toString());
+                    editor.putString("NAME", user.getNAME().toString());
+                    editor.putString("GENDER", user.getGENDER().toString());
+                    editor.putString("UNIV", user.getUNIV().toString());
+                    editor.putString("FIELD", user.getFIELD().toString());
                     editor.commit();
                     Toast.makeText(LoginActivity.this, "환영합니다!", Toast.LENGTH_SHORT).show();
                     finish();
