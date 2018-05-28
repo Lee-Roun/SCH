@@ -63,12 +63,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        lectureMyList = dbHelper.getMyLectureData();
-        ArrayList<Lecture> lectures = dbHelper.getMyLectureData();
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        lectureMyList = dbHelper.getMyLectureData();
+//        ArrayList<Lecture> lectures = dbHelper.getMyLectureData();
+//
+//
+//        for (TextView tv : textViewArrayList) {
+//            frameLayout.removeView(tv);
+//        }
+//
+//        textViewArrayList.removeAll(textViewArrayList);
+//
+//        for (Lecture lecture : lectures) {
+//            makeMyLectureTable(lecture);
+//            Log.i("Make", "Make : 메인 테이블 만드는중");
+//        }
+//
+//    }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        lectureMyList = dbHelper.getMyLectureData();
+
+        hori = textViewMark.getWidth();
+        verti = textViewMark.getHeight();
+        Log.i("Location", "최초 Hori : " + hori + "/Verti : " + verti);
 
         for (TextView tv : textViewArrayList) {
             frameLayout.removeView(tv);
@@ -76,11 +98,10 @@ public class MainActivity extends AppCompatActivity {
 
         textViewArrayList.removeAll(textViewArrayList);
 
-        for (Lecture lecture : lectures) {
-            makeMyLectureTable(lecture);
+        for (Lecture thisLecture : lectureMyList) {
             Log.i("Make", "Make : 메인 테이블 만드는중");
+            makeMyLectureTable(thisLecture);
         }
-
     }
 
     @Override
@@ -110,21 +131,21 @@ public class MainActivity extends AppCompatActivity {
             Log.i("DBHelp", "DB생성 완료");
         }
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                lectureMyList = dbHelper.getMyLectureData();
-
-                hori = textViewMark.getWidth();
-                verti = textViewMark.getHeight();
-                Log.i("Location", "최초 Hori : " + hori + "/Verti : " + verti);
-
-                for (Lecture thisLecture : lectureMyList) {
-                    Log.i("Make", "Make : 메인 테이블 만드는중");
-                    makeMyLectureTable(thisLecture);
-                }
-            }
-        }, 1000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                lectureMyList = dbHelper.getMyLectureData();
+//
+//                hori = textViewMark.getWidth();
+//                verti = textViewMark.getHeight();
+//                Log.i("Location", "최초 Hori : " + hori + "/Verti : " + verti);
+//
+//                for (Lecture thisLecture : lectureMyList) {
+//                    Log.i("Make", "Make : 메인 테이블 만드는중");
+//                    makeMyLectureTable(thisLecture);
+//                }
+//            }
+//        }, 1000);
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {

@@ -122,6 +122,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+
+
     public void deleteUser(User user) {
         SQLiteDatabase db = getWritableDatabase();
         Log.i("DELETE", "DELETE : " + user.getUID());
@@ -136,16 +138,22 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM USER WHERE ID='" + userID + "';", null);
         User temp = new User();
         cursor.moveToFirst();
-        temp.setUID(cursor.getInt(0));
-        temp.setID(cursor.getString(1));
-        temp.setPW(cursor.getString(2));
-        temp.setNAME(cursor.getString(3));
-        temp.setGENDER(cursor.getString(4));
-        temp.setUNIV(cursor.getString(5));
-        temp.setFIELD(cursor.getString(6));
-        temp.setEMAIL(cursor.getString(7));
 
-        return temp;
+        if(cursor.isNull(0)){
+            return null;
+        }
+        else {
+            temp.setUID(cursor.getInt(0));
+            temp.setID(cursor.getString(1));
+            temp.setPW(cursor.getString(2));
+            temp.setNAME(cursor.getString(3));
+            temp.setGENDER(cursor.getString(4));
+            temp.setUNIV(cursor.getString(5));
+            temp.setFIELD(cursor.getString(6));
+            temp.setEMAIL(cursor.getString(7));
+
+            return temp;
+        }
     }
 
     public void addMyTable(Lecture lecture) {

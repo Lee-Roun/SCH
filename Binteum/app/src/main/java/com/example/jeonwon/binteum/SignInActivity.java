@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 public class SignInActivity extends AppCompatActivity {
 
     EditText editTextID, editTextPW, editTextPWCF, editTextUniv, editTextField, editTextEmail, editTextName;
+    RadioButton radioButtonMan, radioButtonWoman;
     RadioGroup radioGroup;
     Button buttonCancle, buttonSignIn;
     SharedPreferences myInfo;
@@ -33,12 +35,15 @@ public class SignInActivity extends AppCompatActivity {
         editTextName = (EditText)findViewById(R.id.editTextSignName);
         editTextEmail = (EditText)findViewById(R.id.editTextSignEmail);
 
+        radioButtonMan = (RadioButton)findViewById(R.id.radioButtonMan);
+        radioButtonWoman = (RadioButton)findViewById(R.id.radioButtonWoman);
+
         radioGroup = (RadioGroup)findViewById(R.id.radioGroupGender);
         final String[] gender = {null};
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (radioGroup.getId()){
+                switch (i){
                     case R.id.radioButtonMan:
                         gender[0] = "MAN";
                         break;
